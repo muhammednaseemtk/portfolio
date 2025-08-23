@@ -1,0 +1,242 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+/* Body */
+body {
+    font-family: Arial, sans-serif;
+    color: black;
+    line-height: 1.5;
+    padding: 0 1rem;
+    background: linear-gradient(#3B70A0, white);
+}
+
+/* Navbar */
+.navbar {
+    background: linear-gradient(#3B70A0, white);
+    color: black;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border-radius: 6px;
+}
+
+.navbar h2 {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-left: 20px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex-grow: 1;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.navbar ul li a {
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.2rem 0.5rem;
+    white-space: nowrap;
+}
+
+.navbar ul li a:hover,
+.navbar ul li a:focus {
+    text-decoration: underline #3B70A0;
+    outline: none;
+}
+
+/* Focus styles */
+a:focus,
+button:focus {
+    outline: 2px solid #3B70A0;
+    outline-offset: 2px;
+}
+
+/* Sections */
+.section {
+    background: linear-gradient(#3B70A0, white);
+    max-width: 1200px;
+    min-height: 400px;
+    margin: 2rem auto;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+#img-1 {
+    border-radius: 500px;
+    border: #000000 solid;
+}
+
+/* Center all h2 headings */
+.section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* Home Section */
+.home {
+    text-align: center;
+    min-height: 100vh; 
+    width: 100%;       
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;     
+    padding: 2rem;
+}
+
+.home h1 {
+    margin-bottom: 1rem;
+}
+
+#about {
+    width: 100%;
+    min-height: 300px; 
+    padding: 40px;     
+}
+/* Projects */
+.projects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.project {
+    flex: 1 1 300px;
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    border-left: 6px solid #3B70A0;
+    transition: transform 0.3s ease, box-shadow 0.4s ease;
+    min-width: 250px;
+    max-width: 100%;
+}
+
+.project:hover {
+    box-shadow: 0 8px 16px rgba(42, 128, 165, 0.3);
+    transform: translateY(-3px);
+}
+
+/* Skills */
+.skills {
+    text-align: center;
+}
+
+.skills-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.skill-item {
+    background-color: #3B70A0;
+    height: 150px;
+    color: black;
+    padding: 20px 35px;
+    border-radius: 20px;
+    font-weight: 900;
+    cursor: default;
+    transition: background-color 0.1s ease, box-shadow 0.1s ease;
+    user-select: none;
+    white-space: nowrap;
+    font-size: 1.2rem;
+}
+.skill-item i {
+    font-size: 5rem;
+    margin-right: 2px;
+}
+
+.skill-item:hover {
+    background-color: #3B70A0;
+    box-shadow: 0 8px 16px rgba(20, 73, 130, 0.3);
+    transform: translateY(-3px);
+    color: white;
+}
+
+/* Contact Section */
+.contact {
+    text-align: center;
+}
+
+.contact-form {
+    display: inline-block;
+    text-align: left;
+    margin-top: 1rem;
+    background: white;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #3B70A0(46, 125, 50, 0.2);
+    max-width: 500px;
+    width: 100%;
+    background: linear-gradient(#3B70A0, white);
+}
+
+/* Contact Form Inputs */
+.contact-form label {
+    font-weight: 600;
+    margin-top: 1rem;
+    display: block;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    resize: vertical;
+    background: linear-gradient(#3B70A0, white);
+}
+
+/* Contact Button */
+.contact-form button {
+    margin-top: 1.5rem;
+    padding: 0.7rem;
+    background: linear-gradient(#3B70A0, white);
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: background 0.3s ease;
+    width: 100%;
+}
+
+.contact-form button:hover,
+.contact-form button:focus {
+    background: #3B70A0;
+    color: white;
+    outline: none;
+}
+
+/* Footer */
+.footer {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(#3B70A0, white);
+    color: black;
+    margin-top: 3rem;
+    border-radius: 6px;
+}
