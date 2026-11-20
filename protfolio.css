@@ -211,29 +211,12 @@ h6 {
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 4rem;
-}
-
-.section-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.35rem 1.15rem;
-  background: rgba(197, 164, 109, 0.08);
-  border: 1px solid var(--border-gold);
-  border-radius: var(--radius-full);
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--accent-gold);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 1.1rem;
+  margin-bottom: 3.5rem;
 }
 
 .section-title {
   font-size: clamp(2.1rem, 3.6vw, 2.9rem);
-  margin-bottom: 1rem;
+  margin-bottom: 0.85rem;
   letter-spacing: -0.03em;
   font-weight: 700;
 }
@@ -1916,318 +1899,318 @@ textarea.form-control {
    18. COMPREHENSIVE RESPONSIVE DESIGN (ALL BREAKPOINTS)
    -------------------------------------------------------------------------- */
 
-  /* 1. Large Desktops (1440px - 1920px) */
-  @media (min-width: 1440px) {
-    .hero-name {
-      font-size: 4.2rem;
-    }
+/* 1. Large Desktops (1440px - 1920px) */
+@media (min-width: 1440px) {
+  .hero-name {
+    font-size: 4.2rem;
+  }
+}
+
+/* 2. Standard Laptops (1025px - 1439px) */
+@media (max-width: 1439px) {
+  .hero-grid {
+    gap: 2.5rem;
   }
 
-  /* 2. Standard Laptops (1025px - 1439px) */
-  @media (max-width: 1439px) {
-    .hero-grid {
-      gap: 2.5rem;
-    }
+  .avatar-container {
+    width: 330px;
+    height: 330px;
+  }
+}
 
-    .avatar-container {
-      width: 330px;
-      height: 330px;
-    }
+/* 3. Landscape Tablets & Small Laptops (992px - 1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 
-  /* 3. Landscape Tablets & Small Laptops (992px - 1024px) */
-  @media (max-width: 1024px) {
-    .container {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-
-    .hero-grid {
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 2rem;
-    }
-
-    .avatar-container {
-      width: 300px;
-      height: 300px;
-    }
-
-    .chip-top-right {
-      right: -8px;
-    }
-
-    .chip-bottom-left {
-      left: -8px;
-    }
-
-    .about-grid {
-      gap: 2rem;
-    }
-
-    .contact-grid {
-      gap: 2rem;
-    }
+  .hero-grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2rem;
   }
 
-  /* 4. Portrait Tablets (768px - 991px) */
-  @media (max-width: 991px) {
-
-    .nav-links,
-    .nav-actions .btn {
-      display: none;
-    }
-
-    .mobile-toggle {
-      display: block;
-    }
-
-    .hero-section {
-      min-height: auto;
-      padding-top: calc(var(--header-height) + 1.5rem);
-      padding-bottom: 4rem;
-    }
-
-    .hero-grid {
-      grid-template-columns: 1fr;
-      text-align: center;
-      gap: 3rem;
-    }
-
-    .hero-content {
-      align-items: center;
-    }
-
-    .hero-cta-group {
-      justify-content: center;
-    }
-
-    .hero-description {
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero-scroll-indicator {
-      display: none;
-    }
-
-    .about-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .skills-categories-grid {
-      grid-template-columns: 1fr;
-      gap: 1.75rem;
-    }
-
-    .projects-grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .project-card.featured-card {
-      grid-template-columns: 1fr;
-    }
-
-    .contact-grid {
-      grid-template-columns: 1fr;
-      gap: 2.25rem;
-    }
+  .avatar-container {
+    width: 300px;
+    height: 300px;
   }
 
-  /* 5. Mobile Phones (481px - 767px) */
-  @media (max-width: 767px) {
-    section {
-      padding: 4.5rem 0;
-    }
-
-    section[id] {
-      scroll-margin-top: calc(var(--header-height) + 0.5rem);
-    }
-
-    .section-header {
-      margin-bottom: 2.75rem;
-    }
-
-    .section-title {
-      font-size: 2.1rem;
-    }
-
-    .hero-name {
-      font-size: 2.4rem;
-    }
-
-    .avatar-container {
-      width: 270px;
-      height: 270px;
-    }
-
-    .chip-top-right {
-      right: 0;
-      top: -10px;
-    }
-
-    .chip-bottom-left {
-      left: 0;
-      bottom: -10px;
-    }
-
-    .hero-cta-group {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .hero-cta-group .btn {
-      width: 100%;
-    }
-
-    .about-narrative {
-      padding: 1.85rem;
-    }
-
-    .about-highlights-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .timeline-line {
-      left: 18px;
-    }
-
-    .timeline-node {
-      left: 18px;
-    }
-
-    .timeline-item {
-      padding-left: 48px;
-      margin-bottom: 2.5rem;
-    }
-
-    .timeline-card {
-      padding: 1.6rem;
-    }
-
-    .contact-form-panel {
-      padding: 1.75rem;
-    }
-
-    .footer-top {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1.5rem;
-    }
-
-    .footer-links {
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .footer-bottom {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .scroll-top-btn {
-      bottom: 1.5rem;
-      right: 1.5rem;
-    }
+  .chip-top-right {
+    right: -8px;
   }
 
-  /* 6. Small Mobile Phones (320px - 480px) */
-  @media (max-width: 480px) {
-    .container {
-      padding-left: 1.15rem;
-      padding-right: 1.15rem;
-    }
-
-    section {
-      padding: 4rem 0;
-    }
-
-    .section-title {
-      font-size: 1.85rem;
-    }
-
-    .hero-name {
-      font-size: 2rem;
-      word-break: break-word;
-    }
-
-    .hero-role-wrapper {
-      font-size: 1.1rem;
-    }
-
-    .avatar-container {
-      width: 240px;
-      height: 240px;
-      max-width: 80vw;
-    }
-
-    .floating-chip {
-      padding: 0.45rem 0.75rem;
-      gap: 0.5rem;
-    }
-
-    .chip-icon {
-      width: 26px;
-      height: 26px;
-      font-size: 0.9rem;
-    }
-
-    .chip-text strong {
-      font-size: 0.74rem;
-    }
-
-    .chip-text span {
-      font-size: 0.65rem;
-    }
-
-    .skills-items-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .skill-category-card {
-      padding: 1.5rem;
-    }
-
-    .project-body {
-      padding: 1.5rem;
-    }
-
-    .project-actions {
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .project-actions .btn {
-      width: 100%;
-    }
-
-    .timeline-card {
-      padding: 1.25rem;
-    }
-
-    .contact-card {
-      padding: 1.25rem;
-    }
-
-    .contact-form-panel {
-      padding: 1.35rem;
-    }
+  .chip-bottom-left {
+    left: -8px;
   }
 
-  /* 7. Reduced Motion Support */
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+  .about-grid {
+    gap: 2rem;
+  }
 
-      .ambient-glow,
-      .scroll-indicator-line,
-      .floating-chip {
-        animation: none !important;
-      }
-    }
+  .contact-grid {
+    gap: 2rem;
+  }
+}
+
+/* 4. Portrait Tablets (768px - 991px) */
+@media (max-width: 991px) {
+
+  .nav-links,
+  .nav-actions .btn {
+    display: none;
+  }
+
+  .mobile-toggle {
+    display: block;
+  }
+
+  .hero-section {
+    min-height: auto;
+    padding-top: calc(var(--header-height) + 1.5rem);
+    padding-bottom: 4rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-cta-group {
+    justify-content: center;
+  }
+
+  .hero-description {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-scroll-indicator {
+    display: none;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .skills-categories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .project-card.featured-card {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2.25rem;
+  }
+}
+
+/* 5. Mobile Phones (481px - 767px) */
+@media (max-width: 767px) {
+  section {
+    padding: 4.5rem 0;
+  }
+
+  section[id] {
+    scroll-margin-top: calc(var(--header-height) + 0.5rem);
+  }
+
+  .section-header {
+    margin-bottom: 2.25rem;
+  }
+
+  .section-title {
+    font-size: 2.1rem;
+  }
+
+  .hero-name {
+    font-size: 2.4rem;
+  }
+
+  .avatar-container {
+    width: 270px;
+    height: 270px;
+  }
+
+  .chip-top-right {
+    right: 0;
+    top: -10px;
+  }
+
+  .chip-bottom-left {
+    left: 0;
+    bottom: -10px;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .about-narrative {
+    padding: 1.85rem;
+  }
+
+  .about-highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-line {
+    left: 18px;
+  }
+
+  .timeline-node {
+    left: 18px;
+  }
+
+  .timeline-item {
+    padding-left: 48px;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline-card {
+    padding: 1.6rem;
+  }
+
+  .contact-form-panel {
+    padding: 1.75rem;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+
+  .scroll-top-btn {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+/* 6. Small Mobile Phones (320px - 480px) */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 1.15rem;
+    padding-right: 1.15rem;
+  }
+
+  section {
+    padding: 4rem 0;
+  }
+
+  .section-title {
+    font-size: 1.85rem;
+  }
+
+  .hero-name {
+    font-size: 2rem;
+    word-break: break-word;
+  }
+
+  .hero-role-wrapper {
+    font-size: 1.1rem;
+  }
+
+  .avatar-container {
+    width: 240px;
+    height: 240px;
+    max-width: 80vw;
+  }
+
+  .floating-chip {
+    padding: 0.45rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .chip-icon {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+
+  .chip-text strong {
+    font-size: 0.74rem;
+  }
+
+  .chip-text span {
+    font-size: 0.65rem;
+  }
+
+  .skills-items-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-category-card {
+    padding: 1.5rem;
+  }
+
+  .project-body {
+    padding: 1.5rem;
+  }
+
+  .project-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .project-actions .btn {
+    width: 100%;
+  }
+
+  .timeline-card {
+    padding: 1.25rem;
+  }
+
+  .contact-card {
+    padding: 1.25rem;
+  }
+
+  .contact-form-panel {
+    padding: 1.35rem;
+  }
+}
+
+/* 7. Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ambient-glow,
+  .scroll-indicator-line,
+  .floating-chip {
+    animation: none !important;
+  }
+}
