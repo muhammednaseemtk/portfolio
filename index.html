@@ -4,110 +4,935 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <!-- SEO Metadata -->
+  <title>Muhammed Naseem T K | Flutter & Cross-Platform Developer</title>
+  <meta name="description" content="Portfolio of Muhammed Naseem T K - Skilled Flutter & Cross-Platform Developer specializing in high-performance mobile, web, and responsive applications." />
+  <meta name="keywords" content="Muhammed Naseem, Naseem T K, Flutter Developer, Dart, Cross-Platform Developer, Mobile App Developer, Portfolio, Web Developer" />
+  <meta name="author" content="Muhammed Naseem T K" />
+  <meta name="theme-color" content="#07090e" />
 
-  <title>Muhammed Naseem T K</title>
-  <link rel="icon" type="image/jpg" href="favicon.jpg">
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Muhammed Naseem T K | Flutter & Cross-Platform Developer" />
+  <meta property="og:description" content="Explore the portfolio of Muhammed Naseem T K - crafting seamless cross-platform mobile, web, and responsive digital experiences." />
+  <meta property="og:image" content="nasee 1.jpg" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="favicon.jpg" />
+
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome 6.5.2 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="protfolio.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-</script>
-<script type="text/javascript">
-   (function(){
+
+  <!-- EmailJS SDK Integration -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
       emailjs.init({
         publicKey: "RGHQ6d2FMPuJcVBff",
       });
-   })();
-</script>
+    })();
+  </script>
 </head>
 
 <body>
 
-  <!-- Navigation -->
-  <div class="navbar">
-    <h2>Naseem</h2>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#contact">Contact</a></li>
+  <!-- Ambient Glowing Background Accents -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+  <div class="bg-grid-overlay"></div>
+
+  <!-- ========================================================================
+       STICKY NAVIGATION BAR
+       ======================================================================== -->
+  <header class="navbar-custom">
+    <div class="container navbar-inner">
+      <a href="#home" class="brand-logo" aria-label="Naseem Portfolio Home">
+        <div class="brand-icon">
+          <i class="fa-solid fa-code"></i>
+        </div>
+        <span>Naseem<span class="brand-accent">.dev</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li class="nav-link-item"><a href="#home" class="active">Home</a></li>
+          <li class="nav-link-item"><a href="#about">About</a></li>
+          <li class="nav-link-item"><a href="#skills">Skills</a></li>
+          <li class="nav-link-item"><a href="#projects">Projects</a></li>
+          <li class="nav-link-item"><a href="#experience">Experience</a></li>
+          <li class="nav-link-item"><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav CTA & Mobile Toggle -->
+      <div class="nav-actions">
+        <a href="Muhammed_Naseem_Resume.pdf" download="Muhammed_Naseem_Resume.pdf" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-file-arrow-down"></i> Resume
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+  <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+    <ul class="mobile-nav-links">
+      <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="#about"><i class="fa-solid fa-user"></i> About Me</a></li>
+      <li><a href="#skills"><i class="fa-solid fa-code"></i> Skills</a></li>
+      <li><a href="#projects"><i class="fa-solid fa-folder-tree"></i> Projects</a></li>
+      <li><a href="#experience"><i class="fa-solid fa-timeline"></i> Experience</a></li>
+      <li><a href="#contact"><i class="fa-solid fa-paper-plane"></i> Contact</a></li>
     </ul>
-  </div>
 
-  <!-- Home Section -->
-  <div class="section home" id="home">
-    <img src="nasee 1.jpg" alt="Profile Picture" width="350px" , height="350px" id="img-1">
-    <h1>Hi, I'm Naseem T K a passionate flutter developer <br>Welcome to My Portfolio</h1>
-  </div>
-
-  <!-- About Section -->
-  <div class="section about" id="about">
-    <h2>About Me</h2>
-    <p>Developer Naseem is a skilled Flutter developer with expertise in building high-quality, cross-platform
-      applications using the Flutter framework and Dart language. With a strong understanding of responsive UI design
-      and efficient code architecture, Developer Naseem creates seamless mobile, web, and desktop experiences from a
-      single codebase. Known for integrating APIs smoothly and optimizing app performance for both Android and iOS
-      platforms, Naseem collaborates closely with UI/UX designers and backend teams to deliver user-friendly, visually
-      appealing applications.Committed to clean code, testing, and continuous learning, Developer Naseem stays
-      updated with the latest trends and best practices in Flutter development.</p>
-  </div>
-
-  <!-- Projects Section -->
-  <div class="section projects" id="projects">
-    <h2>Projects</h2>
-    <div class="project">
-      <h3>Project One</h3>
-      <img src="Screenshot .jpg" alt="w3.school" width="480px" , height="240px">
-      <p>W3 school</p>
+    <div>
+      <a href="Muhammed_Naseem_Resume.pdf" download="Muhammed_Naseem_Resume.pdf" class="btn btn-primary w-100" style="width: 100%; margin-bottom: 1.5rem;">
+        <i class="fa-solid fa-file-arrow-down"></i> Download Resume
+      </a>
+      <div class="hero-socials" style="justify-content: center;">
+        <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="GitHub Profile">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="LinkedIn Profile">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a href="mailto:muhammednaseemtk000@gmail.com" class="social-icon-btn" aria-label="Email Naseem">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+      </div>
     </div>
-    <div class="project">
-      <h3>Project</h3>
-      <img src="screenshot 1.jpg" alt="Justdial" width="480px" , height="240px">
-      <p>JustDial</p>
+  </aside>
+
+  <!-- ========================================================================
+       HERO SECTION
+       ======================================================================== -->
+  <main>
+    <section class="hero-section" id="home">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <!-- Hero Left Content -->
+          <div class="hero-content reveal">
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              <span>Available for Full-time Roles & Projects</span>
+            </div>
+
+            <div class="hero-greeting">
+              <span>👋 Hello, World! I am</span>
+            </div>
+
+            <h1 class="hero-name">
+              <span class="text-gradient">Muhammed Naseem T K</span>
+            </h1>
+
+            <div class="hero-role-wrapper">
+              <span>A Passionate</span>
+              <span id="typewriter" class="typewriter-text">Flutter Developer</span>
+            </div>
+
+            <p class="hero-description">
+              Expert in building high-quality, cross-platform applications using the 
+              <strong style="color: var(--accent-cyan);">Flutter framework & Dart</strong>. 
+              Delivering seamless, responsive mobile and web experiences from a single codebase with clean architecture and optimized APIs.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="hero-cta-group">
+              <a href="#projects" class="btn btn-primary">
+                <i class="fa-solid fa-layer-group"></i> View My Projects
+                <i class="fa-solid fa-arrow-right-long"></i>
+              </a>
+              <a href="#contact" class="btn btn-secondary">
+                <i class="fa-solid fa-paper-plane"></i> Contact Me
+              </a>
+              <a href="Muhammed_Naseem_Resume.pdf" download="Muhammed_Naseem_Resume.pdf" class="btn btn-outline" id="hero-resume-btn">
+                <i class="fa-solid fa-file-arrow-down"></i> Download Resume
+              </a>
+            </div>
+
+            <!-- Social Links -->
+            <div class="hero-socials">
+              <span class="hero-socials-label">Connect:</span>
+              <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="GitHub Profile" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn Profile" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a href="mailto:muhammednaseemtk000@gmail.com" class="social-icon-btn" title="Direct Email" aria-label="Email">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero Right Visual / Avatar -->
+          <div class="hero-visual-wrapper reveal reveal-delay-2">
+            <div class="avatar-container">
+              <div class="avatar-glow-ring"></div>
+              <div class="avatar-border"></div>
+              <div class="avatar-img-box">
+                <img src="nasee 1.jpg" alt="Muhammed Naseem T K - Flutter Developer" class="avatar-img" />
+              </div>
+
+              <!-- Floating Tech Badges -->
+              <div class="floating-chip chip-top-right">
+                <div class="chip-icon flutter">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+                    <path d="M14.314 0L2.3 12 6 15.7 21.684.013h-7.37zM6.027 15.696L10.37 20.04 14.313 24h7.371l-7.971-7.972 3.971-3.972h-7.371l-4.286 3.64z"/>
+                  </svg>
+                </div>
+                <div class="chip-text">
+                  <strong>Flutter Specialist</strong>
+                  <span>Cross-Platform Apps</span>
+                </div>
+              </div>
+
+              <div class="floating-chip chip-bottom-left">
+                <div class="chip-icon architecture">
+                  <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div class="chip-text">
+                  <strong>Clean Architecture</strong>
+                  <span>Fast 60 FPS UI</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         ABOUT SECTION
+         ======================================================================== -->
+    <section class="about-section" id="about">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag">// ABOUT ME</div>
+          <h2 class="section-title">Crafting Seamless & High-Performance Experiences</h2>
+          <p class="section-subtitle">
+            Dedicated cross-platform developer passionate about code architecture, responsive UI, and continuous learning.
+          </p>
+        </div>
+
+        <div class="about-grid">
+          <!-- Left Column: Authentic Bio Narrative -->
+          <div class="about-narrative reveal">
+            <p class="about-bio-text">
+              Developer Naseem is a skilled <strong>Flutter developer</strong> with expertise in building high-quality, cross-platform applications using the <strong>Flutter framework and Dart language</strong>. With a strong understanding of responsive UI design and efficient code architecture, Developer Naseem creates seamless mobile, web, and desktop experiences from a single codebase.
+            </p>
+            <p class="about-bio-text">
+              Known for integrating APIs smoothly and optimizing app performance for both <strong>Android and iOS platforms</strong>, Naseem collaborates closely with UI/UX designers and backend teams to deliver user-friendly, visually appealing applications. Committed to <strong>clean code, testing, and continuous learning</strong>, Developer Naseem stays updated with the latest trends and best practices in modern development.
+            </p>
+
+            <!-- Metrics / Key Attributes -->
+            <div class="about-highlights-grid">
+              <div class="highlight-stat-box">
+                <div class="stat-number">Single Codebase</div>
+                <div class="stat-label">Android • iOS • Web • Desktop</div>
+              </div>
+              <div class="highlight-stat-box">
+                <div class="stat-number">60 FPS</div>
+                <div class="stat-label">Smooth App UI & Animations</div>
+              </div>
+              <div class="highlight-stat-box">
+                <div class="stat-number">RESTful APIs</div>
+                <div class="stat-label">Seamless Integration & Caching</div>
+              </div>
+              <div class="highlight-stat-box">
+                <div class="stat-number">100% Responsive</div>
+                <div class="stat-label">Adaptive Layouts Across Screens</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Bento Feature Cards -->
+          <div class="bento-features">
+            <div class="feature-card reveal reveal-delay-1">
+              <div class="feature-icon-box">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+              <div class="feature-content">
+                <h4>Cross-Platform Mastery</h4>
+                <p>Architecting fluid mobile and web experiences from a unified Flutter codebase without compromising platform fidelity.</p>
+              </div>
+            </div>
+
+            <div class="feature-card reveal reveal-delay-2">
+              <div class="feature-icon-box">
+                <i class="fa-solid fa-server"></i>
+              </div>
+              <div class="feature-content">
+                <h4>API & Performance Optimization</h4>
+                <p>Seamlessly connecting endpoints, parsing complex JSON structures, and fine-tuning memory usage for lag-free performance.</p>
+              </div>
+            </div>
+
+            <div class="feature-card reveal reveal-delay-3">
+              <div class="feature-icon-box">
+                <i class="fa-solid fa-cubes-stacked"></i>
+              </div>
+              <div class="feature-content">
+                <h4>Clean Architecture & Testing</h4>
+                <p>Writing structured, maintainable, and modular code with scalable state management and dependable engineering practices.</p>
+              </div>
+            </div>
+
+            <div class="feature-card reveal reveal-delay-4">
+              <div class="feature-icon-box">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div class="feature-content">
+                <h4>UI/UX Design Alignment</h4>
+                <p>Collaborating seamlessly to turn design mockups into pixel-perfect, accessible, and delightful interactive applications.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         SKILLS SECTION
+         ======================================================================== -->
+    <section class="skills-section" id="skills">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag">// TECHNICAL ARSENAL</div>
+          <h2 class="section-title">Skills & Technologies</h2>
+          <p class="section-subtitle">
+            Comprehensive breakdown of frameworks, programming languages, and engineering tools in my daily workflow.
+          </p>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="skills-filter-nav reveal">
+          <button class="filter-btn active" data-filter="all">All Skills</button>
+          <button class="filter-btn" data-filter="mobile">Mobile & Cross-Platform</button>
+          <button class="filter-btn" data-filter="web">Frontend & Web</button>
+          <button class="filter-btn" data-filter="game">Game & Interactive</button>
+          <button class="filter-btn" data-filter="tools">Architecture & Tools</button>
+        </div>
+
+        <!-- Skills Grid -->
+        <div class="skills-categories-grid">
+          
+          <!-- Category 1: Mobile & Cross-Platform -->
+          <div class="skill-category-card reveal" data-category="mobile">
+            <div class="category-header">
+              <i class="fa-brands fa-flutter"></i>
+              <h3>Mobile & Cross-Platform</h3>
+            </div>
+            <div class="skills-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-flutter"></i>
+                    <span>Flutter Framework</span>
+                  </div>
+                  <span class="skill-percent">92%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="92%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Dart Language</span>
+                  </div>
+                  <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="90%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <span>Responsive App UI (Android/iOS)</span>
+                  </div>
+                  <span class="skill-percent">88%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="88%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-cubes"></i>
+                    <span>State Management & Widgets</span>
+                  </div>
+                  <span class="skill-percent">85%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="85%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 2: Frontend & Web -->
+          <div class="skill-category-card reveal reveal-delay-1" data-category="web">
+            <div class="category-header">
+              <i class="fa-brands fa-html5"></i>
+              <h3>Frontend & Web Technologies</h3>
+            </div>
+            <div class="skills-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-html5" style="color: #e34f26;"></i>
+                    <span>HTML5 (Semantic & Accessible)</span>
+                  </div>
+                  <span class="skill-percent">95%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="95%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-css3-alt" style="color: #1572b6;"></i>
+                    <span>CSS3 & Modern Layouts (Flex/Grid)</span>
+                  </div>
+                  <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="90%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-node-js" style="color: #f7df1e;"></i>
+                    <span>JavaScript (ES6+, DOM, Async)</span>
+                  </div>
+                  <span class="skill-percent">85%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="85%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-desktop"></i>
+                    <span>Cross-Browser Compatibility</span>
+                  </div>
+                  <span class="skill-percent">88%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="88%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 3: Game & Interactive -->
+          <div class="skill-category-card reveal" data-category="game">
+            <div class="category-header">
+              <i class="fa-brands fa-unity"></i>
+              <h3>Game & Interactive Systems</h3>
+            </div>
+            <div class="skills-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-unity"></i>
+                    <span>Unity Engine (2D & 3D)</span>
+                  </div>
+                  <span class="skill-percent">78%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="78%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Interactive UI & Game Physics</span>
+                  </div>
+                  <span class="skill-percent">72%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="72%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Category 4: Architecture & Tools -->
+          <div class="skill-category-card reveal reveal-delay-1" data-category="tools">
+            <div class="category-header">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+              <h3>Architecture & Tools</h3>
+            </div>
+            <div class="skills-list">
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span>RESTful API Integration</span>
+                  </div>
+                  <span class="skill-percent">90%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="90%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-brands fa-git-alt" style="color: #f05032;"></i>
+                    <span>Git & GitHub Version Control</span>
+                  </div>
+                  <span class="skill-percent">88%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="88%"></div>
+                </div>
+              </div>
+
+              <div class="skill-item-row">
+                <div class="skill-info">
+                  <div class="skill-name-wrap">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Performance Optimization & Profiling</span>
+                  </div>
+                  <span class="skill-percent">86%</span>
+                </div>
+                <div class="skill-progress-track">
+                  <div class="skill-progress-bar" data-progress="86%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PROJECTS SECTION
+         ======================================================================== -->
+    <section class="projects-section" id="projects">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag">// FEATURED WORK</div>
+          <h2 class="section-title">Selected Projects</h2>
+          <p class="section-subtitle">
+            Explore my hands-on software development work, responsive user interfaces, and cross-platform architecture.
+          </p>
+        </div>
+
+        <div class="projects-grid">
+          
+          <!-- Project 1: W3Schools Platform -->
+          <article class="project-card reveal">
+            <div class="project-thumbnail-wrapper" data-lightbox data-image="Screenshot .jpg" data-title="W3Schools Interactive Learning Platform Clone" data-desc="A responsive, feature-rich educational documentation and learning portal inspired by W3Schools. Designed with clean semantic HTML5, modern CSS layouts, and modular components to deliver a seamless tutorial browsing experience across all screen sizes.">
+              <img src="Screenshot .jpg" alt="W3Schools Project Screenshot" class="project-img" />
+              <div class="project-thumbnail-overlay">
+                <button class="project-preview-btn" title="Enlarge Screenshot" aria-label="Enlarge Screenshot">
+                  <i class="fa-solid fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="project-body">
+              <div class="project-category-tag">Web Development & Educational UI</div>
+              <h3 class="project-title">W3Schools Learning Platform UI</h3>
+              <p class="project-description">
+                A structured, pixel-perfect educational web portal replica designed with semantic HTML5, modern CSS layouts, interactive lesson sidebars, and fluid mobile-first responsiveness.
+              </p>
+
+              <div class="project-tech-tags">
+                <span class="tech-tag">HTML5</span>
+                <span class="tech-tag">CSS3</span>
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Responsive UI</span>
+                <span class="tech-tag">Flexbox & Grid</span>
+              </div>
+
+              <div class="project-actions">
+                <a href="Screenshot .jpg" target="_blank" class="btn btn-secondary btn-sm" data-lightbox data-image="Screenshot .jpg" data-title="W3Schools UI" data-desc="Comprehensive educational tutorial layout.">
+                  <i class="fa-solid fa-eye"></i> View Preview
+                </a>
+                <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+                  <i class="fa-brands fa-github"></i> Repository
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2: JustDial Directory -->
+          <article class="project-card reveal reveal-delay-1">
+            <div class="project-thumbnail-wrapper" data-lightbox data-image="screenshot 1.jpg" data-title="JustDial Local Search & Business Directory UI" data-desc="A high-density business discovery and directory interface designed for rapid navigation and local service searches. Incorporates multi-column responsive layout, category exploration cards, and structured listing previews.">
+              <img src="screenshot 1.jpg" alt="JustDial Project Screenshot" class="project-img" />
+              <div class="project-thumbnail-overlay">
+                <button class="project-preview-btn" title="Enlarge Screenshot" aria-label="Enlarge Screenshot">
+                  <i class="fa-solid fa-expand"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="project-body">
+              <div class="project-category-tag">Service Directory & Search UI</div>
+              <h3 class="project-title">JustDial Search & Directory Platform</h3>
+              <p class="project-description">
+                A comprehensive local service discovery and business directory layout featuring categorized search grids, service cards, search filtering, and cross-browser responsive compatibility.
+              </p>
+
+              <div class="project-tech-tags">
+                <span class="tech-tag">Modern CSS</span>
+                <span class="tech-tag">JavaScript</span>
+                <span class="tech-tag">Component Layout</span>
+                <span class="tech-tag">Responsive Grids</span>
+                <span class="tech-tag">UI/UX Design</span>
+              </div>
+
+              <div class="project-actions">
+                <a href="screenshot 1.jpg" target="_blank" class="btn btn-secondary btn-sm" data-lightbox data-image="screenshot 1.jpg" data-title="JustDial Platform UI" data-desc="Local discovery & search directory platform.">
+                  <i class="fa-solid fa-eye"></i> View Preview
+                </a>
+                <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+                  <i class="fa-brands fa-github"></i> Repository
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3: Featured Flutter Architecture (Full Width Showcase) -->
+          <article class="project-card featured-card reveal">
+            <div class="project-thumbnail-wrapper" style="display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, rgba(56, 189, 248, 0.15), rgba(7, 9, 14, 0.95)); border-right: 1px solid var(--border-subtle);">
+              <div style="text-align: center; padding: 2.5rem;">
+                <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem auto; border-radius: 20px; background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--accent-cyan); box-shadow: var(--glow-cyan);">
+                  <i class="fa-brands fa-flutter"></i>
+                </div>
+                <h4 style="font-size: 1.35rem; margin-bottom: 0.5rem;">Flutter Cross-Platform Architecture</h4>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); max-width: 320px; margin: 0 auto;">High-performance single-codebase mobile & web app system</p>
+              </div>
+            </div>
+
+            <div class="project-body">
+              <div class="project-category-tag">Flutter & Mobile Architecture</div>
+              <h3 class="project-title">Cross-Platform Application Framework</h3>
+              <p class="project-description">
+                A scalable mobile and web application architecture demonstrating asynchronous state handling, RESTful API synchronization, caching, reusable widget hierarchies, and smooth 60fps animations engineered for deployment on Android, iOS, and Web.
+              </p>
+
+              <div class="project-tech-tags">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Dart</span>
+                <span class="tech-tag">REST APIs</span>
+                <span class="tech-tag">Clean Architecture</span>
+                <span class="tech-tag">Cross-Platform</span>
+              </div>
+
+              <div class="project-actions">
+                <a href="#contact" class="btn btn-primary btn-sm">
+                  <i class="fa-solid fa-code-branch"></i> Inquire Architecture
+                </a>
+                <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">
+                  <i class="fa-brands fa-github"></i> GitHub Profile
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         EXPERIENCE & JOURNEY SECTION
+         ======================================================================== -->
+    <section class="experience-section" id="experience">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag">// CAREER & JOURNEY</div>
+          <h2 class="section-title">Experience & Milestones</h2>
+          <p class="section-subtitle">
+            A chronological timeline of my development experience, software projects, and technical growth.
+          </p>
+        </div>
+
+        <div class="timeline-container">
+          <div class="timeline-line"></div>
+
+          <!-- Timeline Item 1 -->
+          <div class="timeline-item reveal">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-badge">Current Focus</span>
+                <span class="timeline-date">Present</span>
+              </div>
+              <h3 class="timeline-role">Flutter & Cross-Platform Developer</h3>
+              <div class="timeline-company">Mobile, Web & Desktop App Engineering</div>
+              <div class="timeline-body">
+                Building scalable, cross-platform applications leveraging Flutter and Dart. Implementing robust state management, integrating third-party RESTful APIs, optimizing app lifecycle and rendering performance for both Android and iOS devices.
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 2 -->
+          <div class="timeline-item reveal reveal-delay-1">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-badge">Project Experience</span>
+                <span class="timeline-date">Web Development</span>
+              </div>
+              <h3 class="timeline-role">Frontend Web Developer</h3>
+              <div class="timeline-company">UI/UX & Responsive Web Applications</div>
+              <div class="timeline-body">
+                Architected responsive web projects including the W3Schools educational clone and JustDial directory platform. Focused on semantic HTML5, CSS Grid/Flexbox, cross-browser compatibility, and accessible component architectures.
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 3 -->
+          <div class="timeline-item reveal reveal-delay-2">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-badge">Interactive Systems</span>
+                <span class="timeline-date">Game Technology</span>
+              </div>
+              <h3 class="timeline-role">Interactive & Unity 3D Exploration</h3>
+              <div class="timeline-company">Real-Time Simulation & Game Physics</div>
+              <div class="timeline-body">
+                Designed 2D/3D interactive scenes and simulated physics environments in Unity Engine using C#. Gained deep insight into real-time render loops, user input handlers, and interactive state management.
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline Item 4 -->
+          <div class="timeline-item reveal reveal-delay-3">
+            <div class="timeline-node"></div>
+            <div class="timeline-card">
+              <div class="timeline-meta">
+                <span class="timeline-badge">Continuous Learning</span>
+                <span class="timeline-date">Foundations</span>
+              </div>
+              <h3 class="timeline-role">Software Engineering & Continuous Growth</h3>
+              <div class="timeline-company">Computer Science & Architecture Fundamentals</div>
+              <div class="timeline-body">
+                Dedicated to clean code principles, version control workflows with Git, automated testing paradigms, and staying continuously updated with emerging Flutter ecosystem features.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         CONTACT SECTION
+         ======================================================================== -->
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-tag">// GET IN TOUCH</div>
+          <h2 class="section-title">Let's Connect & Collaborate</h2>
+          <p class="section-subtitle">
+            Have a project in mind, seeking a Flutter developer, or want to discuss opportunities? Send a message directly.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          
+          <!-- Left Column: Contact Cards -->
+          <div class="contact-info-panel reveal">
+            
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="contact-card-content">
+                <h4>Direct Email</h4>
+                <p>Feel free to write to me anytime:</p>
+                <div>
+                  <a href="mailto:muhammednaseemtk000@gmail.com">muhammednaseemtk000@gmail.com</a>
+                  <button type="button" class="copy-email-btn" id="copy-email-btn" title="Copy Email to Clipboard">
+                    <i class="fa-regular fa-copy"></i> Copy
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-solid fa-location-dot"></i>
+              </div>
+              <div class="contact-card-content">
+                <h4>Location & Availability</h4>
+                <p>Based in India • Open to Remote Roles Worldwide</p>
+                <div style="font-size: 0.85rem; color: #34d399; font-weight: 600;">
+                  <i class="fa-solid fa-circle-check"></i> Available for Full-Time & Freelance
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-card">
+              <div class="contact-card-icon">
+                <i class="fa-brands fa-github"></i>
+              </div>
+              <div class="contact-card-content">
+                <h4>GitHub Profile</h4>
+                <p>Explore code repositories and open-source projects:</p>
+                <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer">
+                  github.com/muhammednaseemtk <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Glassmorphic Contact Form (EmailJS Integrated) -->
+          <div class="contact-form-panel reveal reveal-delay-1">
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Send a Message</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.75rem;">
+              Fill in the form below and I'll respond as soon as possible.
+            </p>
+
+            <!-- Status Banner -->
+            <div id="form-status" class="form-status" role="alert"></div>
+
+            <form class="contact-form" onsubmit="sendEmail(event)">
+              <div class="form-group">
+                <label for="name" class="form-label">Your Name <span style="color: var(--accent-cyan);">*</span></label>
+                <input type="text" id="name" name="name" class="form-control" placeholder="e.g. John Doe" required />
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Your Email <span style="color: var(--accent-cyan);">*</span></label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="name@example.com" required />
+              </div>
+
+              <div class="form-group">
+                <label for="subject" class="form-label">Subject</label>
+                <input type="text" id="subject" name="subject" class="form-control" placeholder="Project inquiry / Opportunity" />
+              </div>
+
+              <div class="form-group">
+                <label for="message" class="form-label">Message <span style="color: var(--accent-cyan);">*</span></label>
+                <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project, team, or idea..." required></textarea>
+              </div>
+
+              <button type="submit" id="submit-btn" class="btn btn-primary btn-submit">
+                <span class="spinner"></span>
+                <span class="btn-text">Send Message</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#home" class="brand-logo">
+            <div class="brand-icon">
+              <i class="fa-solid fa-code"></i>
+            </div>
+            <span>Naseem<span class="brand-accent">.dev</span></span>
+          </a>
+          <p>Flutter & Cross-Platform Developer building intuitive, high-performance mobile and web applications.</p>
+        </div>
+
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 Muhammed Naseem T K. All rights reserved.
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <span>Engineered with modern web standards</span>
+          <a href="#home" style="color: var(--accent-cyan); text-decoration: none; font-weight: 600;">
+            Back to Top <i class="fa-solid fa-arrow-up"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       SCREENSHOT LIGHTBOX MODAL
+       ======================================================================== -->
+  <div class="modal-overlay" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Project Screenshot Preview">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="lightbox-close" aria-label="Close Lightbox Preview">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="Project Screenshot Preview" />
+      </div>
+      <div class="lightbox-details">
+        <h3 id="lightbox-title"></h3>
+        <p id="lightbox-desc"></p>
+      </div>
     </div>
   </div>
 
-  <!-- Skills Section -->
-  <div class="section skills" id="skills">
-    <h2>Skills</h2>
-    <div class="skills-box">
-      <span class="skill-item"><i class="fa-brands fa-html5"></i><br>HTML</span>
-      <span class="skill-item"><i class="fa-brands fa-css3-alt"></i><br>CSS</span>
-      <span class="skill-item"><i class="fa-brands fa-node-js"></i><br>JavaScript</span>
-      <span class="skill-item"><i class="fa-brands fa-flutter"></i><br>Flutter</span>
-      <span class="skill-item"><i class="fa-brands fa-unity"></i><br>Unity</span>
-    </div>
-  </div>
+  <!-- ========================================================================
+       SCROLL TO TOP BUTTON (WITH CIRCULAR PROGRESS METER)
+       ======================================================================== -->
+  <button class="scroll-top-btn" id="scroll-top-btn" aria-label="Scroll back to top">
+    <svg class="scroll-progress-circle" viewBox="0 0 52 52">
+      <circle cx="26" cy="26" r="25"></circle>
+    </svg>
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
 
-
-
-  <!-- Contact Section -->
-  <div class="section contact" id="contact">
-    <h2>Contact Me</h2>
-    <form class="contact-form">
-      <label for="name">Name:</label><br />
-      <input type="text" id="name" placeholder="name" name="name" required /><br />
-
-      <label for="email">Email:</label><br />
-      <input type="email" id="email" placeholder="enter your email" name="email" required /><br />
-
-      <label for="message">Message:</label><br />
-      <textarea id="message" name="message" required></textarea><br />
-
-     <button type="submit" class="btn btn-outline-light w-100" onclick="sendEmail(event)">Send </button>
-    </form>
-  </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <p>&copy; Thank you</p>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
-    crossorigin="anonymous"></script>
+  <!-- Main JavaScript File -->
   <script src="protfolio.js"></script>
 
 </body>
