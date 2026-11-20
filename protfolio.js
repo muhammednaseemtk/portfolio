@@ -410,8 +410,8 @@ function initCopyEmail() {
     navigator.clipboard.writeText(email).then(() => {
       const originalHtml = copyBtn.innerHTML;
       copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-      copyBtn.style.color = '#34d399';
-      copyBtn.style.borderColor = '#34d399';
+      copyBtn.style.color = '#C5A46D';
+      copyBtn.style.borderColor = '#C5A46D';
 
       setTimeout(() => {
         copyBtn.innerHTML = originalHtml;
