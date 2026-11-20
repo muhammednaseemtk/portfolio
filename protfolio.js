@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavbarScroll();
+  initCleanAnchorLinks();
   initMobileMenu();
   initTypewriter();
   initScrollReveal();
@@ -53,6 +54,56 @@ function initNavbarScroll() {
 
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll(); // Run on initial load
+}
+
+/* --------------------------------------------------------------------------
+   2. CLEAN ANCHOR NAVIGATION (REMOVES #HASHTAG FROM URL ON SCROLL/CLICK)
+   -------------------------------------------------------------------------- */
+function initCleanAnchorLinks() {
+  // If page was opened with a hash in URL (e.g. /#about), scroll to section and clear the hash
+  if (window.location.hash) {
+    const initialTarget = document.querySelector(window.location.hash);
+    if (initialTarget) {
+      setTimeout(() => {
+        const navbarHeight = document.querySelector('.navbar-custom')?.offsetHeight || 72;
+        const targetPos = initialTarget.getBoundingClientRect().top + window.pageYOffset - navbarHeight + 10;
+        window.scrollTo({
+          top: window.location.hash === '#home' ? 0 : targetPos,
+          behavior: 'smooth'
+        });
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      }, 100);
+    }
+  }
+
+  // Intercept all internal anchor clicks to navigate smoothly without changing URL hash
+  const internalLinks = document.querySelectorAll('a[href^="#"]');
+  internalLinks.forEach((link) => {
+    link.addEventListener('click', function (e) {
+      const hash = this.getAttribute('href');
+      if (!hash || hash === '#') return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+
+        const navbarHeight = document.querySelector('.navbar-custom')?.offsetHeight || 72;
+        const targetPos = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight + 10;
+
+        window.scrollTo({
+          top: hash === '#home' ? 0 : targetPos,
+          behavior: 'smooth'
+        });
+
+        // Strip hashtag from address bar
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      }
+    });
+  });
 }
 
 /* --------------------------------------------------------------------------
