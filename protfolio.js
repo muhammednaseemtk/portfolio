@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTypewriter();
   initScrollReveal();
   initSkillBars();
+  initSkillsReveal();
   initSkillsFilter();
   initProjectLightbox();
   initScrollToTop();
@@ -160,7 +161,15 @@ function initNavbarScroll() {
                   behavior: 'smooth'
                 });
 
-                  // Strip hashtag from address bar
+                if (hash === '#skills') {
+                  const skillsSection = document.getElementById('skills');
+                  if (skillsSection) {
+                    skillsSection.classList.add('skills-revealed');
+                    skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+                  }
+                }
+
+                // Strip hashtag from address bar
                   if (window.history && window.history.replaceState) {
                     window.history.replaceState(null, '', window.location.pathname + window.location.search);
                   }
@@ -347,6 +356,63 @@ function initSkillBars() {
 }
 
 /* --------------------------------------------------------------------------
+   5.1 SKILLS SECTION SCROLL REVEAL & PROGRESSIVE ANIMATION
+   -------------------------------------------------------------------------- */
+function initSkillsReveal() {
+  const skillsSection = document.getElementById('skills');
+  if (!skillsSection) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    skillsSection.classList.add('skills-revealed');
+    return;
+  }
+
+  // Check if skills is already within or near viewport on load
+  const rect = skillsSection.getBoundingClientRect();
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  if (rect.top < windowHeight - 40) {
+    skillsSection.classList.add('skills-revealed');
+    skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+    return;
+  }
+
+  // Set initial hidden state for animated reveal
+  skillsSection.classList.add('skills-init');
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          skillsSection.classList.add('skills-revealed');
+          skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+          // Stop observing so animations never restart when scrolling up and down
+          obs.unobserve(skillsSection);
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0.08,
+      rootMargin: '0px 0px 80px 0px' // triggers 80px before entering viewport for smooth entrance
+    }
+  );
+
+  observer.observe(skillsSection);
+
+  // Safety fallback: ensure cards are never permanently invisible if user scrolls past fast
+  window.addEventListener('scroll', function onScrollCheck() {
+    const r = skillsSection.getBoundingClientRect();
+    if (r.top < window.innerHeight) {
+      skillsSection.classList.add('skills-revealed');
+      skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+      window.removeEventListener('scroll', onScrollCheck);
+    }
+  }, { passive: true });
+}
+
+/* --------------------------------------------------------------------------
    6. SKILLS CATEGORY FILTER
    -------------------------------------------------------------------------- */
 function initSkillsFilter() {
@@ -362,20 +428,28 @@ function initSkillsFilter() {
 
       const filter = btn.getAttribute('data-filter');
 
+      // Clear any entrance stagger delays so filtering is instantaneous and crisp
       skillCards.forEach((card) => {
+        card.style.transitionDelay = '0s';
+        card.querySelectorAll('.skill-box-item').forEach((item) => {
+          item.style.transitionDelay = '0s';
+        });
+
         const category = card.getAttribute('data-category');
         if (filter === 'all' || category === filter) {
           card.style.display = 'block';
-          setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-          }, 20);
+          // Force layout reflow before triggering opacity/transform
+          void card.offsetWidth;
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0) scale(1)';
         } else {
           card.style.opacity = '0';
-          card.style.transform = 'translateY(15px)';
+          card.style.transform = 'translateY(12px) scale(0.97)';
           setTimeout(() => {
-            card.style.display = 'none';
-          }, 200);
+            if (card.style.opacity === '0') {
+              card.style.display = 'none';
+            }
+          }, 220);
         }
       });
     });
