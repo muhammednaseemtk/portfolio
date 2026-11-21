@@ -1,21 +1,245 @@
 /**
  * MUHAMMED NASEEM T K - PORTFOLIO INTERACTIVITY & ANIMATIONS
  * Modern UI/UX Architecture with High-Performance JavaScript
+ * Inspired by ebuka.marketing + partner.clleancode.com
  */
 
+let lenisInstance = null;
+
 document.addEventListener('DOMContentLoaded', () => {
+  initSmoothScrolling();
+  initReadingProgressBar();
+  initHeroReveal();
+  initHeroParallax();
   initNavbarScroll();
   initCleanAnchorLinks();
   initMobileMenu();
   initTypewriter();
   initScrollReveal();
+  initStatCounters();
   initSkillBars();
   initSkillsReveal();
   initSkillsFilter();
+  initProjectScrollEffects();
   initProjectLightbox();
+  initTimelineProgress();
+  initContactReveal();
   initScrollToTop();
   initCopyEmail();
 });
+
+/* --------------------------------------------------------------------------
+   0. SMOOTH SCROLLING ENGINE (LENIS MOMENTUM & NATIVE FALLBACK)
+   -------------------------------------------------------------------------- */
+function initSmoothScrolling() {
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced || typeof Lenis === 'undefined') {
+    return;
+  }
+
+  try {
+    lenisInstance = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5,
+      infinite: false
+    });
+
+    function raf(time) {
+      if (lenisInstance) {
+        lenisInstance.raf(time);
+        requestAnimationFrame(raf);
+      }
+    }
+    requestAnimationFrame(raf);
+
+    // Sync scroll listeners with Lenis
+    lenisInstance.on('scroll', () => {
+      updateScrollReadingProgress();
+      updateTimelineFill();
+    });
+  } catch (err) {
+    console.warn('Smooth scroll fallback:', err);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   0.1 GLOBAL READING PROGRESS BAR (FIXED LUXURY GOLD LINE)
+   -------------------------------------------------------------------------- */
+function updateScrollReadingProgress() {
+  const progressBar = document.getElementById('scroll-reading-progress');
+  if (!progressBar) return;
+
+  const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? Math.min(1, Math.max(0, scrollY / docHeight)) : 0;
+
+  progressBar.style.transform = `scaleX(${progress})`;
+}
+
+function initReadingProgressBar() {
+  window.addEventListener('scroll', updateScrollReadingProgress, { passive: true });
+  updateScrollReadingProgress();
+}
+
+/* --------------------------------------------------------------------------
+   0.2 HERO OPENING CHOREOGRAPHY & PARALLAX
+   -------------------------------------------------------------------------- */
+function initHeroReveal() {
+  const heroSection = document.getElementById('home');
+  if (!heroSection) return;
+
+  requestAnimationFrame(() => {
+    heroSection.classList.add('hero-revealed');
+  });
+}
+
+function initHeroParallax() {
+  const avatar = document.querySelector('.avatar-container');
+  const heroSection = document.getElementById('home');
+  if (!avatar || !heroSection) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollY < window.innerHeight) {
+      avatar.style.transform = `translateY(${scrollY * 0.08}px)`;
+    }
+  }, { passive: true });
+}
+
+/* --------------------------------------------------------------------------
+   0.3 DYNAMIC STAT COUNTERS (ABOUT SECTION)
+   -------------------------------------------------------------------------- */
+function initStatCounters() {
+  const statBox = document.querySelector('.about-highlights-grid');
+  if (!statBox) return;
+
+  let animated = false;
+
+  const animateStats = () => {
+    if (animated) return;
+    animated = true;
+
+    const counterElements = statBox.querySelectorAll('.counter-val');
+    counterElements.forEach((el) => {
+      const target = parseFloat(el.getAttribute('data-target')) || 0;
+      const duration = 1600;
+      const startTime = performance.now();
+
+      const updateCount = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const currentVal = Math.floor(easeProgress * target);
+
+        el.textContent = currentVal;
+
+        if (progress < 1) {
+          requestAnimationFrame(updateCount);
+        } else {
+          el.textContent = target;
+        }
+      };
+
+      requestAnimationFrame(updateCount);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        animateStats();
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(statBox);
+}
+
+/* --------------------------------------------------------------------------
+   0.4 EXPERIENCE TIMELINE DYNAMIC LINE FILL & MARKER PULSE
+   -------------------------------------------------------------------------- */
+function updateTimelineFill() {
+  const experienceSection = document.getElementById('experience');
+  const timelineFill = document.getElementById('timeline-line-fill');
+  const timelineContainer = document.querySelector('.timeline-container');
+  if (!experienceSection || !timelineFill || !timelineContainer) return;
+
+  const rect = timelineContainer.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+
+  const start = windowHeight * 0.75;
+  const totalHeight = rect.height;
+  const currentPos = start - rect.top;
+
+  let progress = 0;
+  if (currentPos > 0) {
+    progress = Math.min(1, Math.max(0, currentPos / totalHeight));
+  }
+
+  timelineFill.style.height = `${(progress * 100).toFixed(1)}%`;
+
+  const items = timelineContainer.querySelectorAll('.timeline-item');
+  items.forEach((item) => {
+    const node = item.querySelector('.timeline-node');
+    if (!node) return;
+    const nodeRect = node.getBoundingClientRect();
+    if (nodeRect.top <= start + 40) {
+      node.classList.add('active-node');
+    } else {
+      node.classList.remove('active-node');
+    }
+  });
+}
+
+function initTimelineProgress() {
+  window.addEventListener('scroll', updateTimelineFill, { passive: true });
+  updateTimelineFill();
+}
+
+/* --------------------------------------------------------------------------
+   0.5 PROJECTS SCROLL REVEALS & IMAGE MASKS
+   -------------------------------------------------------------------------- */
+function initProjectScrollEffects() {
+  const projectCards = document.querySelectorAll('.project-card');
+  if (!projectCards.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px 60px 0px' });
+
+  projectCards.forEach((card) => observer.observe(card));
+}
+
+/* --------------------------------------------------------------------------
+   0.6 CONTACT SECTION CASCADE REVEAL
+   -------------------------------------------------------------------------- */
+function initContactReveal() {
+  const contactSection = document.getElementById('contact');
+  if (!contactSection) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        contactSection.classList.add('contact-revealed');
+        contactSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+        obs.unobserve(contactSection);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px 80px 0px' });
+
+  observer.observe(contactSection);
+}
 
 /* --------------------------------------------------------------------------
    1. NAVBAR SCROLL EFFECT & SCROLLSPY
@@ -156,17 +380,20 @@ function initNavbarScroll() {
                   ? 0
                   : getSectionTargetPos(target);
 
-                window.scrollTo({
-                  top: targetPos,
-                  behavior: 'smooth'
-                });
+                if (lenisInstance) {
+                  lenisInstance.scrollTo(targetPos, { duration: 1.15 });
+                } else {
+                  window.scrollTo({
+                    top: targetPos,
+                    behavior: 'smooth'
+                  });
+                }
 
-                if (hash === '#skills') {
-                  const skillsSection = document.getElementById('skills');
-                  if (skillsSection) {
-                    skillsSection.classList.add('skills-revealed');
-                    skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
-                  }
+                if (target) {
+                  target.classList.add('revealed');
+                  target.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+                  if (hash === '#skills') target.classList.add('skills-revealed');
+                  if (hash === '#contact') target.classList.add('contact-revealed');
                 }
 
                 // Strip hashtag from address bar
@@ -312,12 +539,24 @@ function initScrollReveal() {
     },
     {
       root: null,
-      threshold: 0.08,
-      rootMargin: '0px 0px 60px 0px'
+      threshold: 0.04,
+      rootMargin: '0px 0px 120px 0px'
     }
   );
 
   reveals.forEach((el) => revealObserver.observe(el));
+
+  // Fast scroll fallback: reveal any element when scrolled past
+  window.addEventListener('scroll', () => {
+    reveals.forEach((el) => {
+      if (!el.classList.contains('revealed')) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 20) {
+          el.classList.add('revealed');
+        }
+      }
+    });
+  }, { passive: true });
 }
 
 /* --------------------------------------------------------------------------
@@ -538,10 +777,14 @@ function initScrollToTop() {
   }, { passive: true });
 
   scrollTopBtn.addEventListener('click', () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
+    if (lenisInstance) {
+      lenisInstance.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
   });
 }
 
@@ -552,23 +795,42 @@ function initCopyEmail() {
   const copyBtn = document.getElementById('copy-email-btn');
   if (!copyBtn) return;
 
+  const showCopiedFeedback = () => {
+    const originalHtml = copyBtn.innerHTML;
+    copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+    copyBtn.classList.add('copied');
+
+    setTimeout(() => {
+      copyBtn.innerHTML = originalHtml;
+      copyBtn.classList.remove('copied');
+    }, 2400);
+  };
+
   copyBtn.addEventListener('click', () => {
     const email = 'muhammednaseemtk000@gmail.com';
-    navigator.clipboard.writeText(email).then(() => {
-      const originalHtml = copyBtn.innerHTML;
-      copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-      copyBtn.style.color = '#C5A46D';
-      copyBtn.style.borderColor = '#C5A46D';
-
-      setTimeout(() => {
-        copyBtn.innerHTML = originalHtml;
-        copyBtn.style.color = '';
-        copyBtn.style.borderColor = '';
-      }, 2500);
-    }).catch((err) => {
-      console.error('Failed to copy: ', err);
-    });
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(showCopiedFeedback).catch(() => {
+        fallbackCopyText(email);
+        showCopiedFeedback();
+      });
+    } else {
+      fallbackCopyText(email);
+      showCopiedFeedback();
+    }
   });
+}
+
+function fallbackCopyText(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+  } catch (err) {}
+  document.body.removeChild(textarea);
 }
 
 /* --------------------------------------------------------------------------

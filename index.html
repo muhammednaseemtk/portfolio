@@ -57,6 +57,9 @@
 
 <body>
 
+  <!-- Global Scroll Reading Progress Bar -->
+  <div class="scroll-reading-progress" id="scroll-reading-progress" aria-hidden="true"></div>
+
   <!-- Ambient Luxury Gold Accents -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
@@ -143,7 +146,9 @@
             </div>
 
             <h1 class="hero-name">
-              <span class="text-gold-gradient">Muhammed Naseem T K</span>
+              <span class="hero-name-mask">
+                <span class="hero-name-text text-gold-gradient">Muhammed Naseem T K</span>
+              </span>
             </h1>
 
             <div class="hero-role-wrapper">
@@ -233,7 +238,10 @@
 
         <!-- Luxury Scroll Down Indicator -->
         <a href="#about" class="hero-scroll-indicator" aria-label="Scroll down to About section">
-          <span>Scroll</span>
+          <div class="scroll-pill-mouse">
+            <div class="scroll-pill-wheel"></div>
+          </div>
+          <span class="scroll-pill-label">Scroll to explore</span>
           <div class="scroll-indicator-line"></div>
         </a>
 
@@ -273,20 +281,20 @@
             <!-- Metrics / Key Highlights -->
             <div class="about-highlights-grid">
               <div class="highlight-stat-box">
-                <div class="stat-number">Single Codebase</div>
+                <div class="stat-number"><span class="counter-val" data-target="1">1</span> Codebase</div>
                 <div class="stat-label">Android • iOS • Web • Desktop</div>
               </div>
               <div class="highlight-stat-box">
-                <div class="stat-number">60 FPS</div>
+                <div class="stat-number"><span class="counter-val" data-target="60">60</span> FPS</div>
                 <div class="stat-label">Smooth App UI & Animations</div>
               </div>
               <div class="highlight-stat-box">
-                <div class="stat-number">RESTful APIs</div>
-                <div class="stat-label">Seamless Integration & Caching</div>
+                <div class="stat-number"><span class="counter-val" data-target="15">15</span>+</div>
+                <div class="stat-label">Projects & Architecture Modules</div>
               </div>
               <div class="highlight-stat-box">
-                <div class="stat-number">100% Responsive</div>
-                <div class="stat-label">Adaptive Layouts Across Screens</div>
+                <div class="stat-number"><span class="counter-val" data-target="100">100</span>%</div>
+                <div class="stat-label">Responsive & Cross-Platform</div>
               </div>
             </div>
           </div>
@@ -723,7 +731,9 @@
         </div>
 
         <div class="timeline-container">
-          <div class="timeline-line"></div>
+          <div class="timeline-line">
+            <div class="timeline-line-fill" id="timeline-line-fill"></div>
+          </div>
 
           <!-- Timeline Item 1 -->
           <div class="timeline-item reveal">
@@ -992,6 +1002,9 @@
     </svg>
     <i class="fa-solid fa-arrow-up"></i>
   </button>
+
+  <!-- Smooth Scrolling Momentum Library (Lenis) -->
+  <script src="lenis.min.js"></script>
 
   <!-- Main JavaScript File -->
   <script src="protfolio.js"></script>
