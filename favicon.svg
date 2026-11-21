@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfc08a" />
+      <stop offset="50%" stop-color="#C5A46D" />
+      <stop offset="100%" stop-color="#9e7f45" />
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dfc08a" stop-opacity="0.65" />
+      <stop offset="50%" stop-color="#C5A46D" stop-opacity="0.35" />
+      <stop offset="100%" stop-color="#9e7f45" stop-opacity="0.60" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#151515" />
+      <stop offset="100%" stop-color="#0c0c0c" />
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&amp;display=swap');
+      .brand-letter {
+        font-family: 'Cinzel', Georgia, 'Times New Roman', serif;
+        font-weight: 700;
+        fill: url(#goldGrad);
+      }
+    </style>
+  </defs>
+
+  <!-- Deep Black Base -->
+  <rect width="512" height="512" rx="72" fill="#080808" />
+
+  <!-- Subtle Dark Card with Champagne Gold Border -->
+  <rect x="14" y="14" width="484" height="484" rx="60" fill="url(#cardGrad)" stroke="url(#borderGrad)" stroke-width="14" />
+
+  <!-- Capital N Monogram in Champagne Gold -->
+  <text x="256" y="270" text-anchor="middle" dominant-baseline="central" font-size="310" class="brand-letter">N</text>
+</svg>
