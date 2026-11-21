@@ -613,20 +613,25 @@ function initSkillsReveal() {
 
   if (rect.top < windowHeight - 40) {
     skillsSection.classList.add('skills-revealed');
-    skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
     return;
   }
 
-  // Set initial hidden state for animated reveal
+  // Set initial hidden state for animated entrance
   skillsSection.classList.add('skills-init');
+
+  const onReveal = () => {
+    skillsSection.classList.add('skills-revealed');
+    // Remove skills-init after entrance completes so cards transition cleanly when filtered
+    setTimeout(() => {
+      skillsSection.classList.remove('skills-init');
+    }, 1100);
+  };
 
   const observer = new IntersectionObserver(
     (entries, obs) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          skillsSection.classList.add('skills-revealed');
-          skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
-          // Stop observing so animations never restart when scrolling up and down
+          onReveal();
           obs.unobserve(skillsSection);
         }
       });
@@ -634,21 +639,24 @@ function initSkillsReveal() {
     {
       root: null,
       threshold: 0.08,
-      rootMargin: '0px 0px 80px 0px' // triggers 80px before entering viewport for smooth entrance
+      rootMargin: '0px 0px 80px 0px'
     }
   );
 
   observer.observe(skillsSection);
 
-  // Safety fallback: ensure cards are never permanently invisible if user scrolls past fast
-  window.addEventListener('scroll', function onScrollCheck() {
-    const r = skillsSection.getBoundingClientRect();
-    if (r.top < window.innerHeight) {
-      skillsSection.classList.add('skills-revealed');
-      skillsSection.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
-      window.removeEventListener('scroll', onScrollCheck);
-    }
-  }, { passive: true });
+  // Safety fallback: ensure cards are visible if user scrolls quickly past the threshold
+  window.addEventListener(
+    'scroll',
+    function onScrollCheck() {
+      const r = skillsSection.getBoundingClientRect();
+      if (r.top < window.innerHeight) {
+        onReveal();
+        window.removeEventListener('scroll', onScrollCheck);
+      }
+    },
+    { passive: true }
+  );
 }
 
 /* --------------------------------------------------------------------------
@@ -657,8 +665,11 @@ function initSkillsReveal() {
 function initSkillsFilter() {
   const filterBtns = document.querySelectorAll('.skills-filter-nav .filter-btn');
   const skillCards = document.querySelectorAll('.skill-category-card');
+  const categoriesGrid = document.querySelector('.skills-categories-grid');
 
   if (!filterBtns.length || !skillCards.length) return;
+
+  let filterTimeouts = [];
 
   filterBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -667,30 +678,71 @@ function initSkillsFilter() {
 
       const filter = btn.getAttribute('data-filter');
 
-      // Clear any entrance stagger delays so filtering is instantaneous and crisp
+      // Clear any pending timeouts from rapid clicks
+      filterTimeouts.forEach((t) => clearTimeout(t));
+      filterTimeouts = [];
+
+      // Ensure skills-init is removed so entrance stagger delays don't affect filtering
+      const skillsSection = document.getElementById('skills');
+      if (skillsSection) {
+        skillsSection.classList.remove('skills-init');
+        skillsSection.classList.add('skills-revealed');
+      }
+
+      // Update grid layout class for single filtered card vs full 2-col grid
+      if (categoriesGrid) {
+        if (filter === 'all') {
+          categoriesGrid.classList.remove('is-filtered');
+        } else {
+          categoriesGrid.classList.add('is-filtered');
+        }
+      }
+
+      // Record position before filtering to prevent disorienting jumps
+      const rectBefore = skillsSection ? skillsSection.getBoundingClientRect() : null;
+
       skillCards.forEach((card) => {
+        // Strip any residual transition delays
         card.style.transitionDelay = '0s';
         card.querySelectorAll('.skill-box-item').forEach((item) => {
           item.style.transitionDelay = '0s';
         });
 
         const category = card.getAttribute('data-category');
-        if (filter === 'all' || category === filter) {
-          card.style.display = 'block';
-          // Force layout reflow before triggering opacity/transform
+        const matches = filter === 'all' || category === filter;
+
+        if (matches) {
+          // Restore CSS flexbox display (never force display: block!)
+          card.style.display = '';
+          card.style.pointerEvents = 'auto';
+          // Force reflow
           void card.offsetWidth;
           card.style.opacity = '1';
           card.style.transform = 'translateY(0) scale(1)';
         } else {
           card.style.opacity = '0';
-          card.style.transform = 'translateY(12px) scale(0.97)';
-          setTimeout(() => {
+          card.style.transform = 'translateY(8px) scale(0.98)';
+          card.style.pointerEvents = 'none';
+          const t = setTimeout(() => {
             if (card.style.opacity === '0') {
               card.style.display = 'none';
             }
-          }, 220);
+          }, 240);
+          filterTimeouts.push(t);
         }
       });
+
+      // Smoothly re-align if user was deep within skills and height collapses significantly
+      if (skillsSection && rectBefore) {
+        const navbar = document.querySelector('.navbar-custom');
+        const navbarHeight = navbar ? navbar.offsetHeight : 75;
+        if (rectBefore.top < -150) {
+          window.scrollTo({
+            top: skillsSection.offsetTop - navbarHeight - 15,
+            behavior: 'smooth'
+          });
+        }
+      }
     });
   });
 }

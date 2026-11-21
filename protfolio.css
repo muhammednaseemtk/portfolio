@@ -1065,6 +1065,16 @@ h6 {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.75rem;
   align-items: stretch;
+  transition: all var(--transition-normal);
+}
+
+/* When a single category filter is active, center and span gracefully */
+.skills-categories-grid.is-filtered {
+  grid-template-columns: 1fr;
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .skill-category-card {
@@ -1074,8 +1084,9 @@ h6 {
   padding: 2.25rem;
   display: flex;
   flex-direction: column;
-  transition: all var(--transition-normal);
+  transition: opacity 0.25s ease, transform 0.25s ease, background var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
 .skill-category-card:hover {
@@ -1116,8 +1127,9 @@ h6 {
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 0.65rem;
+  gap: 0.75rem;
+  min-height: 195px;
+  box-sizing: border-box;
   transition: all var(--transition-normal);
 }
 
@@ -1131,10 +1143,16 @@ h6 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 32px;
 }
 
 .skill-box-icon {
-  font-size: 1.5rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.45rem;
   color: var(--accent-gold);
 }
 
@@ -1142,23 +1160,29 @@ h6 {
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 600;
-  padding: 0.2rem 0.6rem;
+  padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
   background: rgba(197, 164, 109, 0.08);
   border: 1px solid rgba(197, 164, 109, 0.25);
   color: var(--accent-gold);
+  white-space: nowrap;
 }
 
 .skill-box-name {
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  line-height: 1.3;
 }
 
 .skill-box-desc {
   font-size: 0.82rem;
   color: var(--text-secondary);
-  line-height: 1.45;
+  line-height: 1.5;
+  flex-grow: 1;
 }
 
 /* --------------------------------------------------------------------------
