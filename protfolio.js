@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactReveal();
   initScrollToTop();
   initCopyEmail();
-  initCustomCursor();
 });
 
 /* --------------------------------------------------------------------------
@@ -264,20 +263,19 @@ function initHeroCinematicScroll() {
 
       if (aboutNarrative) {
         aboutTl.from(aboutNarrative, {
-          x: -35,
+          y: 30,
           opacity: 0,
           duration: 0.9,
           ease: 'power3.out'
         }, '-=0.5');
       }
 
-      const featureCards = aboutSection.querySelectorAll('.feature-card');
-      if (featureCards.length) {
-        aboutTl.from(featureCards, {
-          x: 35,
+      if (aboutHighlights) {
+        aboutTl.from(aboutHighlights.children, {
+          y: 25,
           opacity: 0,
           stagger: 0.12,
-          duration: 0.85,
+          duration: 0.8,
           ease: 'power3.out'
         }, '-=0.6');
       }
@@ -1183,112 +1181,4 @@ function hideFormStatus() {
   const statusDiv = document.getElementById('form-status');
   if (!statusDiv) return;
   statusDiv.style.display = 'none';
-}
-
-/* --------------------------------------------------------------------------
-   19. MINIMAL WHITE ARROW POINTER
-   -------------------------------------------------------------------------- */
-function initCustomCursor() {
-  // Hide and disable on touch/coarse devices
-  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches ||
-    ('ontouchstart' in window && !window.matchMedia('(pointer: fine)').matches);
-  if (isTouchDevice) return;
-
-  const pointer = document.getElementById('custom-pointer');
-  if (!pointer) return;
-
-  let mouseX = -100, mouseY = -100;
-  let pointerX = -100, pointerY = -100;
-  let isVisible = false;
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Track cursor movement
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-
-    if (!isVisible) {
-      isVisible = true;
-      pointer.classList.add('is-active');
-      document.body.classList.add('custom-cursor-enabled');
-      pointerX = mouseX;
-      pointerY = mouseY;
-    }
-
-    if (prefersReduced) {
-      pointer.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-    }
-  }, { passive: true });
-
-  // Responsive, natural easing loop (crisp 0.45 lerp for near-instant native feel with zero drag)
-  if (!prefersReduced) {
-    function loop() {
-      if (isVisible) {
-        pointerX += (mouseX - pointerX) * 0.45;
-        pointerY += (mouseY - pointerY) * 0.45;
-        pointer.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
-      }
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-  }
-
-  // Viewport exit / enter handling
-  window.addEventListener('mouseleave', () => {
-    isVisible = false;
-    pointer.classList.remove('is-active');
-  });
-
-  window.addEventListener('mouseenter', () => {
-    isVisible = true;
-    pointer.classList.add('is-active');
-  });
-
-  // Tactile click feedback
-  window.addEventListener('mousedown', () => {
-    pointer.classList.add('is-clicking');
-  });
-
-  window.addEventListener('mouseup', () => {
-    pointer.classList.remove('is-clicking');
-  });
-
-  // Interactive element hover detection via event delegation
-  document.addEventListener('mouseover', (e) => {
-    const target = e.target;
-    if (!target) return;
-
-    // A. Action buttons & primary CTA
-    if (target.closest('.btn, button, input[type="submit"], [role="button"], .scroll-top-btn, .drawer-close-btn')) {
-      pointer.classList.add('is-hover-btn');
-      pointer.classList.remove('is-hover-link', 'is-hover-card', 'is-input');
-    }
-    // B. Interactive Cards (Project Cards, Skill Cards, Category Cards)
-    else if (target.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card')) {
-      pointer.classList.add('is-hover-card');
-      pointer.classList.remove('is-hover-btn', 'is-hover-link', 'is-input');
-    }
-    // C. Links & Navigation items
-    else if (target.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge')) {
-      pointer.classList.add('is-hover-link');
-      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-input');
-    }
-    // D. Text inputs
-    else if (target.closest('input, textarea, select')) {
-      pointer.classList.add('is-input');
-      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link');
-    }
-  }, { passive: true });
-
-  document.addEventListener('mouseout', (e) => {
-    const related = e.relatedTarget;
-    if (!related || (
-      !related.closest('.btn, button, input[type="submit"], [role="button"], .scroll-top-btn, .drawer-close-btn') &&
-      !related.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card') &&
-      !related.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge') &&
-      !related.closest('input, textarea, select')
-    )) {
-      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link', 'is-input');
-    }
-  }, { passive: true });
 }

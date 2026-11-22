@@ -765,78 +765,31 @@ h6 {
 }
 
 /* --------------------------------------------------------------------------
-   9. ABOUT SECTION ALIGNMENT (BALANCED TWO-COLUMN EDITORIAL)
+   9. ABOUT SECTION ALIGNMENT
    -------------------------------------------------------------------------- */
-.about-section {
-  position: relative;
-  overflow: hidden;
-}
-
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.1fr 0.9fr;
   gap: 2.25rem;
   align-items: stretch;
-  position: relative;
-}
-
-/* Subtle Ambient Gold Glow behind Left Column */
-.about-grid::before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: -8%;
-  width: 460px;
-  height: 460px;
-  background: radial-gradient(circle, rgba(197, 164, 109, 0.08) 0%, rgba(197, 164, 109, 0.02) 45%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(35px);
 }
 
 .about-narrative {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  padding: 2.25rem;
+  padding: 2.5rem;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.5rem;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-/* Soft Inner Radial Gold Glow */
-.about-narrative::before {
-  content: '';
-  position: absolute;
-  top: -25%;
-  left: -20%;
-  width: 380px;
-  height: 380px;
-  background: radial-gradient(circle, rgba(197, 164, 109, 0.12) 0%, rgba(197, 164, 109, 0.03) 50%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(25px);
-}
-
-.about-narrative > * {
-  position: relative;
-  z-index: 1;
-}
-
-.about-bio-wrap {
-  display: block;
 }
 
 .about-bio-text {
   font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.82;
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
 }
 
 .about-bio-text strong {
@@ -844,24 +797,21 @@ h6 {
   font-weight: 600;
 }
 
-/* 3-Item Stats Row */
 .about-highlights-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.85rem;
-  margin: 0;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.15rem;
+  margin-top: 1.5rem;
 }
 
 .highlight-stat-box {
   background: var(--bg-secondary);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
-  padding: 1.1rem 0.85rem;
-  text-align: center;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   transition: all var(--transition-normal);
 }
 
@@ -869,108 +819,39 @@ h6 {
   border-color: var(--border-gold);
   background: #161616;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 164, 109, 0.12);
 }
 
 .stat-number {
   font-family: var(--font-display);
-  font-size: 1.65rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--accent-gold);
-  margin-bottom: 0.2rem;
-  line-height: 1.15;
+  margin-bottom: 0.25rem;
 }
 
 .stat-label {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  line-height: 1.3;
-}
-
-/* Tech Stack Chip Row */
-.about-tech-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-}
-
-.tech-stack-label {
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent-gold);
-  font-weight: 600;
-  font-family: var(--font-mono);
-}
-
-.tech-chip-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.tech-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.38rem 0.85rem;
-  border-radius: var(--radius-full);
   font-size: 0.82rem;
+  color: var(--text-secondary);
   font-weight: 500;
-  color: var(--text-primary);
-  background: rgba(197, 164, 109, 0.04);
-  border: 1px solid rgba(197, 164, 109, 0.28);
-  transition: all var(--transition-fast);
 }
 
-.tech-chip i {
-  color: var(--accent-gold);
-  font-size: 0.8rem;
-}
-
-.tech-chip:hover {
-  background: rgba(197, 164, 109, 0.12);
-  border-color: var(--accent-gold);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(197, 164, 109, 0.22);
-}
-
-/* Action CTA Buttons */
-.about-actions {
-  display: flex;
-  gap: 0.85rem;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 0.25rem;
-}
-
-.about-actions .btn {
-  padding: 0.7rem 1.35rem;
-  font-size: 0.88rem;
-}
-
-/* Bento Feature Cards (Right Column) */
+/* Bento Feature Cards */
 .bento-features {
-  display: flex;
-  flex-direction: column;
-  gap: 0.95rem;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.15rem;
+  align-content: space-between;
 }
 
 .feature-card {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
-  padding: 1.35rem 1.6rem;
+  padding: 1.45rem 1.6rem;
   display: flex;
   gap: 1.25rem;
   align-items: flex-start;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              background var(--transition-normal),
-              border-color var(--transition-normal),
-              box-shadow var(--transition-normal);
+  transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
 }
@@ -990,30 +871,11 @@ h6 {
 .feature-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-gold);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(197, 164, 109, 0.16);
+  transform: translateX(4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .feature-card:hover::before {
-  opacity: 1;
-}
-
-/* Corner Number Tag */
-.card-number-tag {
-  position: absolute;
-  top: 1.1rem;
-  right: 1.35rem;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--text-muted);
-  opacity: 0.75;
-  transition: color var(--transition-fast), opacity var(--transition-fast);
-}
-
-.feature-card:hover .card-number-tag {
-  color: var(--accent-gold);
   opacity: 1;
 }
 
@@ -2095,26 +1957,6 @@ textarea.form-control {
   transform: translateY(0);
 }
 
-.reveal-left.reveal-init {
-  opacity: 0;
-  transform: translateX(-30px);
-}
-
-.reveal-left.revealed {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.reveal-right.reveal-init {
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.reveal-right.revealed {
-  opacity: 1;
-  transform: translateX(0);
-}
-
 .reveal-delay-1 {
   transition-delay: 0.1s;
 }
@@ -2129,95 +1971,6 @@ textarea.form-control {
 
 .reveal-delay-4 {
   transition-delay: 0.4s;
-}
-
-/* --------------------------------------------------------------------------
-   17B. MINIMAL WHITE ARROW POINTER
-   -------------------------------------------------------------------------- */
-.custom-pointer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 999999;
-  opacity: 0;
-  transform: translate3d(-100px, -100px, 0);
-  transform-origin: 0 0;
-  transition: opacity 0.25s ease;
-  will-change: transform;
-}
-
-.custom-pointer-svg {
-  display: block;
-  width: 22px;
-  height: 22px;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.2s ease;
-  transform-origin: 0 0;
-}
-
-/* Active state when pointer enters screen */
-.custom-pointer.is-active {
-  opacity: 1;
-}
-
-/* Hidden over text input areas */
-.custom-pointer.is-input {
-  opacity: 0;
-}
-
-/* Subtle Hover: Buttons & CTA */
-.custom-pointer.is-hover-btn .custom-pointer-svg {
-  transform: scale(1.14) rotate(-3deg);
-  filter: drop-shadow(0 3px 10px rgba(197, 164, 109, 0.45)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
-}
-
-/* Subtle Hover: Links & Nav */
-.custom-pointer.is-hover-link .custom-pointer-svg {
-  transform: scale(1.08);
-  filter: drop-shadow(0 2px 8px rgba(197, 164, 109, 0.35)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
-}
-
-/* Subtle Hover: Project & Skill Cards */
-.custom-pointer.is-hover-card .custom-pointer-svg {
-  transform: scale(1.18);
-  filter: drop-shadow(0 4px 14px rgba(197, 164, 109, 0.4)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6));
-}
-
-/* Tactile Click / Active State */
-.custom-pointer.is-clicking .custom-pointer-svg {
-  transform: scale(0.9);
-}
-
-/* Desktop Fine Pointer: Hide system default cursor once custom pointer activates */
-@media (hover: hover) and (pointer: fine) {
-  body.custom-cursor-enabled,
-  body.custom-cursor-enabled a,
-  body.custom-cursor-enabled button,
-  body.custom-cursor-enabled .btn,
-  body.custom-cursor-enabled [role="button"],
-  body.custom-cursor-enabled .brand-logo,
-  body.custom-cursor-enabled .social-icon-btn,
-  body.custom-cursor-enabled .filter-chip,
-  body.custom-cursor-enabled .project-card,
-  body.custom-cursor-enabled .skill-card,
-  body.custom-cursor-enabled .scroll-top-btn {
-    cursor: none !important;
-  }
-
-  body.custom-cursor-enabled input,
-  body.custom-cursor-enabled textarea {
-    cursor: text !important;
-  }
-}
-
-/* Mobile & Touch Devices: Fully hide custom pointer elements, native touch unaffected */
-@media (hover: none), (pointer: coarse) {
-  .custom-pointer {
-    display: none !important;
-    visibility: hidden !important;
-  }
 }
 
 /* --------------------------------------------------------------------------
@@ -2582,17 +2335,17 @@ html.lenis, html.lenis body {
 
 /* Bento Feature Cards Micro-Interactions */
 .feature-card {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
               background var(--transition-normal),
               border-color var(--transition-normal),
               box-shadow var(--transition-normal);
 }
 
 .feature-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   background: var(--bg-card-hover);
   border-color: var(--border-gold);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 20px rgba(197, 164, 109, 0.16);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 25px rgba(197, 164, 109, 0.08);
 }
 
 /* 6. Projects Section Storytelling Masks & Parallax */
@@ -2764,24 +2517,11 @@ html.lenis, html.lenis body {
   }
 
   .about-narrative {
-    padding: 1.75rem 1.4rem;
+    padding: 1.85rem;
   }
 
   .about-highlights-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.55rem;
-  }
-
-  .highlight-stat-box {
-    padding: 0.85rem 0.45rem;
-  }
-
-  .stat-number {
-    font-size: 1.35rem;
-  }
-
-  .stat-label {
-    font-size: 0.72rem;
+    grid-template-columns: 1fr;
   }
 
   .timeline-line {
@@ -2865,21 +2605,6 @@ html.lenis, html.lenis body {
 
   .skill-category-card {
     padding: 1.5rem;
-  }
-
-  .about-highlights-grid {
-    grid-template-columns: 1fr;
-    gap: 0.65rem;
-  }
-
-  .about-actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .about-actions .btn {
-    width: 100%;
-    justify-content: center;
   }
 
   .project-body {
