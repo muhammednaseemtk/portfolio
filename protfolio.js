@@ -264,19 +264,20 @@ function initHeroCinematicScroll() {
 
       if (aboutNarrative) {
         aboutTl.from(aboutNarrative, {
-          y: 30,
+          x: -35,
           opacity: 0,
           duration: 0.9,
           ease: 'power3.out'
         }, '-=0.5');
       }
 
-      if (aboutHighlights) {
-        aboutTl.from(aboutHighlights.children, {
-          y: 25,
+      const featureCards = aboutSection.querySelectorAll('.feature-card');
+      if (featureCards.length) {
+        aboutTl.from(featureCards, {
+          x: 35,
           opacity: 0,
           stagger: 0.12,
-          duration: 0.8,
+          duration: 0.85,
           ease: 'power3.out'
         }, '-=0.6');
       }
