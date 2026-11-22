@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* --------------------------------------------------------------------------
-   0. SMOOTH SCROLLING ENGINE (LENIS MOMENTUM & NATIVE FALLBACK)
+   0. SMOOTH SCROLLING ENGINE (LENIS MOMENTUM & GSAP SYNCHRONIZATION)
    -------------------------------------------------------------------------- */
 function initSmoothScrolling() {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -46,13 +46,23 @@ function initSmoothScrolling() {
       infinite: false
     });
 
-    function raf(time) {
-      if (lenisInstance) {
-        lenisInstance.raf(time);
-        requestAnimationFrame(raf);
+    // Synchronize Lenis with GSAP ScrollTrigger if available
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.registerPlugin(ScrollTrigger);
+      lenisInstance.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => {
+        lenisInstance.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+    } else {
+      function raf(time) {
+        if (lenisInstance) {
+          lenisInstance.raf(time);
+          requestAnimationFrame(raf);
+        }
       }
+      requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 
     // Sync scroll listeners with Lenis
     lenisInstance.on('scroll', () => {
@@ -84,8 +94,10 @@ function initReadingProgressBar() {
 }
 
 /* --------------------------------------------------------------------------
-   0.2 DENNIS SNELLENBERG HERO CHOREOGRAPHY, KINETIC MARQUEE & PARALLAX
+   0.2 DENNIS SNELLENBERG CINEMATIC HERO & SCROLL ANIMATION
    -------------------------------------------------------------------------- */
+let marqueeScrollFactor = 0;
+
 function initHeroReveal() {
   const heroSection = document.getElementById('home');
   if (!heroSection) return;
@@ -96,6 +108,7 @@ function initHeroReveal() {
   });
 
   initHeroMarquee();
+  initHeroCinematicScroll();
 }
 
 function initHeroMarquee() {
@@ -124,7 +137,7 @@ function initHeroMarquee() {
     // Decay the scroll boost back to 0 smoothly
     scrollBoost *= 0.94;
 
-    marqueePos -= (baseSpeed + scrollBoost);
+    marqueePos -= (baseSpeed + scrollBoost + marqueeScrollFactor);
     if (marqueePos <= -50) {
       marqueePos = 0;
     } else if (marqueePos > 0) {
@@ -138,28 +151,162 @@ function initHeroMarquee() {
   requestAnimationFrame(step);
 }
 
-function initHeroParallax() {
-  const portraitFrame = document.getElementById('hero-portrait-frame');
-  const portraitImg = document.getElementById('hero-portrait-img');
+function initHeroCinematicScroll() {
   const heroSection = document.getElementById('home');
-  if (!portraitFrame || !heroSection) return;
+  const portraitStage = document.getElementById('hero-portrait-stage');
+  const portraitImg = document.getElementById('hero-center-portrait-img');
+  const corners = document.querySelectorAll('.hero-corner');
+  const scrollIndicator = document.querySelector('.hero-scroll-indicator');
+
+  if (!heroSection) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 
-  window.addEventListener('scroll', () => {
-    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    const heroH = heroSection.offsetHeight;
+  // Use GSAP ScrollTrigger if loaded
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
 
-    if (scrollY < heroH + 100) {
-      // Gentle depth parallax on frame
-      portraitFrame.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
-      // Subtle scaling shift to simulate 3D camera depth
-      if (portraitImg) {
-        portraitImg.style.transform = `scale(${1 + scrollY * 0.00012})`;
+    // 1. Hero Scroll Timeline linked to scroll progress (scrub)
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.6,
+        onUpdate: (self) => {
+          marqueeScrollFactor = Math.max(-0.5, Math.min(0.5, self.getVelocity() * 0.0003));
+        }
+      }
+    });
+
+    // A. Supporting corner text fades out in the first 25% of scroll
+    if (corners.length) {
+      heroTl.to(corners, {
+        opacity: 0,
+        y: -30,
+        stagger: 0.02,
+        ease: 'power2.in',
+        duration: 0.25
+      }, 0);
+    }
+
+    // Scroll indicator fades out quickly
+    if (scrollIndicator) {
+      heroTl.to(scrollIndicator, {
+        opacity: 0,
+        y: 20,
+        ease: 'power2.in',
+        duration: 0.25
+      }, 0);
+    }
+
+    // B. Portrait scale & parallax: gradually scales slightly and translates down
+    if (portraitStage) {
+      heroTl.to(portraitStage, {
+        yPercent: 18,
+        ease: 'none',
+        duration: 1
+      }, 0);
+    }
+
+    if (portraitImg) {
+      heroTl.to(portraitImg, {
+        scale: 1.14,
+        ease: 'power1.out',
+        duration: 1
+      }, 0);
+    }
+
+    // C. Hero Exit & Section Transition: fade as it reaches the end
+    if (portraitStage) {
+      heroTl.to(portraitStage, {
+        opacity: 0.12,
+        ease: 'power2.in',
+        duration: 0.3
+      }, 0.7);
+    }
+
+    // 2. About Section Reveal Transition with text mask
+    const aboutSection = document.getElementById('about');
+    const aboutTitleText = aboutSection ? aboutSection.querySelector('.title-text') : null;
+    const aboutSubtitle = aboutSection ? aboutSection.querySelector('.section-subtitle') : null;
+    const aboutNarrative = aboutSection ? aboutSection.querySelector('.about-narrative') : null;
+    const aboutHighlights = aboutSection ? aboutSection.querySelector('.about-highlights-grid') : null;
+
+    if (aboutSection) {
+      const aboutTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutSection,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      if (aboutTitleText) {
+        gsap.set(aboutTitleText, { y: '105%', opacity: 0 });
+        aboutTl.to(aboutTitleText, {
+          y: '0%',
+          opacity: 1,
+          duration: 1,
+          ease: 'power4.out'
+        });
+      }
+
+      if (aboutSubtitle) {
+        aboutTl.from(aboutSubtitle, {
+          y: 20,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power3.out'
+        }, '-=0.6');
+      }
+
+      if (aboutNarrative) {
+        aboutTl.from(aboutNarrative, {
+          y: 30,
+          opacity: 0,
+          duration: 0.9,
+          ease: 'power3.out'
+        }, '-=0.5');
+      }
+
+      if (aboutHighlights) {
+        aboutTl.from(aboutHighlights.children, {
+          y: 25,
+          opacity: 0,
+          stagger: 0.12,
+          duration: 0.8,
+          ease: 'power3.out'
+        }, '-=0.6');
       }
     }
-  }, { passive: true });
+  } else {
+    // Native fallback if GSAP is not present
+    window.addEventListener('scroll', () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const heroH = heroSection.offsetHeight;
+      if (scrollY < heroH + 100) {
+        if (portraitStage) {
+          portraitStage.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.15}px))`;
+        }
+        if (portraitImg) {
+          portraitImg.style.transform = `scale(${1 + scrollY * 0.00015})`;
+        }
+        corners.forEach((c) => {
+          c.style.opacity = Math.max(0, 1 - scrollY / 250);
+          c.style.transform = `translateY(-${scrollY * 0.1}px)`;
+        });
+        if (scrollIndicator) {
+          scrollIndicator.style.opacity = Math.max(0, 1 - scrollY / 150);
+        }
+      }
+    }, { passive: true });
+  }
+}
+
+function initHeroParallax() {
+  // Handled by initHeroCinematicScroll
 }
 
 /* --------------------------------------------------------------------------

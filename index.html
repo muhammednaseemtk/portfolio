@@ -131,132 +131,104 @@
   </aside>
 
   <!-- ========================================================================
-       HERO SECTION – DENNIS SNELLENBERG INSPIRED PORTRAIT SHOWCASE
+       HERO SECTION – DENNIS SNELLENBERG CINEMATIC PORTRAIT HERO (100svh)
        ======================================================================== -->
   <main>
-    <section class="hero-section dennis-hero" id="home">
-      <!-- Subtle Ambient Glow -->
-      <div class="hero-portrait-ambient" aria-hidden="true"></div>
+    <section class="hero-section dennis-fullscreen-hero" id="home">
+      <!-- Layer 1: Ambient Background Glow -->
+      <div class="hero-bg-glow" aria-hidden="true"></div>
 
-      <!-- Top Editorial Meta Bar (Dennis Snellenberg Style) -->
-      <div class="container hero-meta-bar">
-        <div class="hero-meta-item hero-meta-discipline">
-          <span class="meta-label">Discipline</span>
-          <span class="meta-value">Flutter & Cross-Platform Developer</span>
+      <!-- Layer 2: Large Personal Portrait in Exact Visual Center -->
+      <div class="hero-portrait-stage" id="hero-portrait-stage">
+        <div class="hero-portrait-container" id="hero-portrait-container">
+          <img src="naseem.png" alt="Muhammed Naseem T K - Flutter Developer" class="hero-center-portrait-img"
+            id="hero-center-portrait-img" />
+          <div class="hero-portrait-fade-bottom" aria-hidden="true"></div>
         </div>
-        <div class="hero-meta-item hero-meta-status">
+      </div>
+
+      <!-- Layer 3: Oversized Moving Name Typography Across The Portrait -->
+      <div class="hero-marquee-wrap" aria-hidden="true">
+        <div class="hero-marquee-track" id="hero-marquee-track">
+          <div class="hero-marquee-segment">
+            <span class="marquee-name-bold">MUHAMMED NASEEM</span>
+            <span class="marquee-dot">—</span>
+            <span class="marquee-role-stroke">FLUTTER DEVELOPER</span>
+            <span class="marquee-dot">—</span>
+          </div>
+          <div class="hero-marquee-segment">
+            <span class="marquee-name-bold">MUHAMMED NASEEM</span>
+            <span class="marquee-dot">—</span>
+            <span class="marquee-role-stroke">FLUTTER DEVELOPER</span>
+            <span class="marquee-dot">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Layer 4: Peripheral Supporting Details (Corners) -->
+      <div class="container hero-peripheral-layer">
+        <!-- Top Left Corner: Discipline & Developer Role -->
+        <div class="hero-corner hero-corner-tl">
+          <span class="corner-meta-label">Discipline</span>
+          <h2 class="corner-meta-title">Flutter & Cross-Platform Engineer</h2>
+          <div class="corner-typewriter">
+            <span>Passionate</span>
+            <span id="typewriter" class="typewriter-text">Flutter Developer</span>
+          </div>
+          <p class="corner-meta-desc">
+            Crafting high-performance mobile, web, and responsive digital products with clean architecture and 60 FPS motion.
+          </p>
+        </div>
+
+        <!-- Top Right Corner: Availability Status & Location -->
+        <div class="hero-corner hero-corner-tr">
           <div class="status-badge">
             <span class="status-dot"></span>
             <span>Available for Full-time Roles & Projects</span>
           </div>
-        </div>
-        <div class="hero-meta-item hero-meta-location">
-          <span class="meta-label">Location</span>
-          <span class="meta-value"><i class="fa-solid fa-earth-americas globe-spin"></i> Kerala, India</span>
-        </div>
-      </div>
-
-      <!-- Colossal Kinetic Marquee Track (Dennis Snellenberg Signature) -->
-      <div class="hero-marquee-wrap" aria-hidden="true">
-        <div class="hero-marquee-track" id="hero-marquee-track">
-          <div class="hero-marquee-item">
-            <span class="marquee-solid">MUHAMMED NASEEM</span>
-            <span class="marquee-sep">—</span>
-            <span class="marquee-stroke">FLUTTER DEVELOPER</span>
-            <span class="marquee-sep">—</span>
-            <span class="marquee-solid">CROSS-PLATFORM</span>
-            <span class="marquee-sep">—</span>
-          </div>
-          <div class="hero-marquee-item">
-            <span class="marquee-solid">MUHAMMED NASEEM</span>
-            <span class="marquee-sep">—</span>
-            <span class="marquee-stroke">FLUTTER DEVELOPER</span>
-            <span class="marquee-sep">—</span>
-            <span class="marquee-solid">CROSS-PLATFORM</span>
-            <span class="marquee-sep">—</span>
+          <div class="corner-location">
+            <span class="corner-meta-label">Location</span>
+            <span class="corner-location-val">
+              <i class="fa-solid fa-earth-americas globe-spin"></i> Kerala, India
+            </span>
           </div>
         </div>
-      </div>
 
-      <!-- Main Hero Stage: Large Dominant Portrait + Editorial Typography -->
-      <div class="container hero-stage-container">
-        <div class="hero-stage-grid">
-
-          <!-- Dominant Large Portrait Showcase -->
-          <div class="hero-portrait-col">
-            <div class="hero-portrait-frame" id="hero-portrait-frame">
-              <div class="hero-portrait-glow" aria-hidden="true"></div>
-              <div class="hero-portrait-inner">
-                <img src="naseem.png" alt="Muhammed Naseem T K - Flutter Developer" class="hero-portrait-img"
-                  id="hero-portrait-img" />
-                <div class="hero-portrait-gradient-bottom" aria-hidden="true"></div>
-              </div>
-            </div>
+        <!-- Bottom Left Corner: Social Connections -->
+        <div class="hero-corner hero-corner-bl">
+          <span class="corner-meta-label">Connect</span>
+          <div class="hero-socials">
+            <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer"
+              class="social-icon-btn" title="GitHub Profile" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/muhammed-naseem-t-k-b08969377/" target="_blank"
+              rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn Profile" aria-label="LinkedIn">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+            <a href="mailto:muhammednaseemtk000@gmail.com" class="social-icon-btn" title="Direct Email"
+              aria-label="Email">
+              <i class="fa-solid fa-envelope"></i>
+            </a>
           </div>
-
-          <!-- Editorial Typography & Interactions -->
-          <div class="hero-content-col">
-            <div class="hero-content-inner">
-              <h1 class="hero-name">
-                <span class="hero-name-mask">
-                  <span class="hero-name-text text-gold-gradient">Muhammed Naseem T K</span>
-                </span>
-              </h1>
-
-              <div class="hero-role-wrapper">
-                <span>A Passionate</span>
-                <span id="typewriter" class="typewriter-text">Flutter Developer</span>
-              </div>
-
-              <p class="hero-description">
-                Expert in building high-quality, cross-platform applications using the
-                <strong style="color: var(--accent-gold);">Flutter framework & Dart</strong>.
-                Delivering seamless, responsive mobile and web experiences from a single codebase with clean architecture
-                and optimized APIs.
-              </p>
-
-              <!-- 4 Requested CTA Buttons: View My Work, About Me, Contact Me, Download Resume -->
-              <div class="hero-cta-group">
-                <a href="#projects" class="btn btn-primary">
-                  <i class="fa-solid fa-layer-group"></i> View My Work
-                  <i class="fa-solid fa-arrow-right-long"></i>
-                </a>
-                <a href="#about" class="btn btn-secondary">
-                  <i class="fa-solid fa-user"></i> About Me
-                </a>
-                <a href="#contact" class="btn btn-secondary">
-                  <i class="fa-solid fa-paper-plane"></i> Contact Me
-                </a>
-                <a href="Muhammed_Naseem_Resume.pdf" download="Muhammed_Naseem_Resume.pdf" class="btn btn-outline"
-                  id="hero-resume-btn">
-                  <i class="fa-solid fa-file-arrow-down"></i> Download Resume
-                </a>
-              </div>
-
-              <!-- Social Links Strip -->
-              <div class="hero-socials-wrap">
-                <span class="hero-socials-label">Connect:</span>
-                <div class="hero-socials">
-                  <a href="https://github.com/muhammednaseemtk" target="_blank" rel="noopener noreferrer"
-                    class="social-icon-btn" title="GitHub Profile" aria-label="GitHub">
-                    <i class="fa-brands fa-github"></i>
-                  </a>
-                  <a href="https://www.linkedin.com/in/muhammed-naseem-t-k-b08969377/" target="_blank"
-                    rel="noopener noreferrer" class="social-icon-btn" title="LinkedIn Profile" aria-label="LinkedIn">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                  </a>
-                  <a href="mailto:muhammednaseemtk000@gmail.com" class="social-icon-btn" title="Direct Email"
-                    aria-label="Email">
-                    <i class="fa-solid fa-envelope"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
 
-        <!-- Luxury Scroll Down Indicator -->
+        <!-- Bottom Right Corner: CTA Actions -->
+        <div class="hero-corner hero-corner-br">
+          <div class="hero-corner-cta">
+            <a href="#projects" class="btn btn-primary btn-sm">
+              <i class="fa-solid fa-layer-group"></i> View Work <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href="#about" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-user"></i> About Me
+            </a>
+            <a href="#contact" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-paper-plane"></i> Contact
+            </a>
+          </div>
+        </div>
+
+        <!-- Bottom Center: Luxury Scroll Down Indicator -->
         <a href="#about" class="hero-scroll-indicator" aria-label="Scroll down to About section">
           <div class="scroll-pill-mouse">
             <div class="scroll-pill-wheel"></div>
@@ -264,7 +236,6 @@
           <span class="scroll-pill-label">Scroll to explore</span>
           <div class="scroll-indicator-line"></div>
         </a>
-
       </div>
     </section>
 
@@ -274,7 +245,9 @@
     <section class="about-section" id="about">
       <div class="container">
         <div class="section-header reveal">
-          <h2 class="section-title">About Me</h2>
+          <h2 class="section-title">
+            <span class="title-mask"><span class="title-text">About Me</span></span>
+          </h2>
           <p class="section-subtitle">
             Dedicated cross-platform developer passionate about code architecture, responsive UI, and continuous
             learning.
@@ -1025,6 +998,10 @@
 
   <!-- Smooth Scrolling Momentum Library (Lenis) -->
   <script src="lenis.min.js"></script>
+
+  <!-- GSAP & ScrollTrigger Core -->
+  <script src="gsap.min.js"></script>
+  <script src="ScrollTrigger.min.js"></script>
 
   <!-- Main JavaScript File -->
   <script src="protfolio.js"></script>
