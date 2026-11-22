@@ -335,25 +335,21 @@ h6 {
   width: 100%;
   height: var(--header-height);
   z-index: 1000;
-  transition: opacity 0.4s ease, transform 0.4s ease, background-color var(--transition-normal),
-    border-color var(--transition-normal), box-shadow var(--transition-normal), height var(--transition-normal);
+  transition: background-color var(--transition-normal),
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    height var(--transition-normal);
   background-color: transparent;
   border-bottom: 1px solid transparent;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-12px);
 }
 
 .navbar-custom.scrolled {
-  background-color: rgba(8, 8, 8, 0.92);
+  background-color: rgba(8, 8, 8, 0.90);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   height: 72px;
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
 }
 
 .navbar-inner {
@@ -544,7 +540,7 @@ h6 {
 }
 
 /* --------------------------------------------------------------------------
-   8. DENNIS SNELLENBERG EXACT FULLSCREEN PORTRAIT HERO (100svh)
+   8. DENNIS SNELLENBERG EXACT FULLSCREEN PORTRAIT HERO (100svh) – DARK LUXURY THEME
    -------------------------------------------------------------------------- */
 .hero-section.dennis-fullscreen-hero {
   height: 100svh;
@@ -555,18 +551,24 @@ h6 {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: #A0A3A3;
+  background-color: var(--bg-primary); /* Normal #080808 Dark Luxury Background */
   padding: 0;
-  color: #1c1d20;
+  color: var(--text-primary);
 }
 
-/* Layer 1: Solid Light Grey Studio Canvas (#A0A3A3) */
-.hero-canvas-bg {
+/* Layer 1: Ambient Luxury Backdrop Halo */
+.hero-bg-glow {
   position: absolute;
-  inset: 0;
-  background-color: #A0A3A3;
+  top: 48%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(900px, 95vw);
+  height: min(900px, 95vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(197, 164, 109, 0.12) 0%, rgba(8, 8, 8, 0) 68%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  filter: blur(55px);
 }
 
 /* Layer 2: Central Transparent Cutout Portrait (No cards, no rectangular container) */
@@ -603,7 +605,7 @@ h6 {
   object-position: bottom center;
   display: block;
   pointer-events: none;
-  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.22));
+  filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 35px rgba(197, 164, 109, 0.14));
   transform-origin: bottom center;
   will-change: transform;
   opacity: 0;
@@ -649,84 +651,28 @@ h6 {
 }
 
 .marquee-name-bold {
-  color: #ffffff;
-  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  color: #f5f5f5;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
 }
 
 .marquee-role-stroke {
   color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 255, 255, 0.7);
-  text-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  -webkit-text-stroke: 2px rgba(197, 164, 109, 0.5);
+  text-shadow: 0 0 30px rgba(197, 164, 109, 0.25);
 }
 
 .marquee-dot {
-  color: #1c1d20;
+  color: var(--accent-gold);
   font-size: 0.65em;
-  opacity: 0.45;
+  opacity: 0.7;
 }
 
-/* Layer 4: Side & Top Peripheral Information (Dennis Snellenberg Signature Layout) */
+/* Layer 4: Side Peripheral Information (Dark Luxury Theme) */
 .hero-details-layer {
   position: absolute;
   inset: 0;
   z-index: 4;
   pointer-events: none;
-}
-
-/* Top-Left: Personal Branding */
-.hero-meta-top-left {
-  position: absolute;
-  top: clamp(1.5rem, 3.5vh, 2.75rem);
-  left: clamp(1.5rem, 4vw, 4.5rem);
-  pointer-events: auto;
-}
-
-.hero-copyright {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1c1d20;
-  letter-spacing: 0.02em;
-}
-
-/* Top-Right: Minimal Navigation */
-.hero-meta-top-right {
-  position: absolute;
-  top: clamp(1.5rem, 3.5vh, 2.75rem);
-  right: clamp(1.5rem, 4vw, 4.5rem);
-  display: flex;
-  gap: 2.25rem;
-  align-items: center;
-  pointer-events: auto;
-}
-
-.hero-top-link {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #1c1d20;
-  text-decoration: none;
-  transition: color var(--transition-fast), transform var(--transition-fast);
-  position: relative;
-}
-
-.hero-top-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0%;
-  height: 2px;
-  background: #1c1d20;
-  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hero-top-link:hover {
-  color: #000000;
-}
-
-.hero-top-link:hover::after {
-  width: 100%;
 }
 
 /* Left Side: Dark Rounded Location Panel with Globe */
@@ -739,27 +685,29 @@ h6 {
 }
 
 .hero-location-pill {
-  background: #1c1d20;
-  color: #ffffff;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-gold);
   padding: 0.75rem 1.4rem;
   border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   gap: 0.9rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(197, 164, 109, 0.1);
+  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .hero-location-pill:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+  border-color: var(--accent-gold);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 30px rgba(197, 164, 109, 0.2);
 }
 
 .globe-icon-sphere {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(197, 164, 109, 0.12);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -788,14 +736,14 @@ h6 {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--accent-gold);
 }
 
 .location-pill-main {
   font-family: var(--font-body);
   font-size: 0.88rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 /* Right Side: Directional Arrow & Developer Role */
@@ -815,18 +763,20 @@ h6 {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid rgba(28, 29, 32, 0.25);
+  border: 1px solid var(--border-gold);
+  background: var(--bg-card);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  color: #1c1d20;
-  transition: transform var(--transition-normal), border-color var(--transition-normal);
+  color: var(--accent-gold);
+  transition: transform var(--transition-normal), border-color var(--transition-normal), box-shadow var(--transition-normal);
 }
 
 .hero-meta-right-role:hover .role-arrow-circle {
   transform: rotate(45deg);
-  border-color: #1c1d20;
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(197, 164, 109, 0.3);
 }
 
 .hero-role-arrow {
@@ -845,7 +795,7 @@ h6 {
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #4b4e50;
+  color: var(--accent-gold);
   font-weight: 500;
 }
 
@@ -853,25 +803,8 @@ h6 {
   font-family: var(--font-display);
   font-size: 1.05rem;
   font-weight: 700;
-  color: #1c1d20;
+  color: var(--text-primary);
   line-height: 1.25;
-}
-
-/* Layer 5: Seamless Bottom Curve Divider into Dark Luxury About Section */
-.hero-curve-divider {
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: clamp(45px, 8vh, 95px);
-  pointer-events: none;
-  z-index: 5;
-}
-
-.hero-curve-divider svg {
-  width: 100%;
-  height: 100%;
-  display: block;
 }
 
 /* Bottom Center: Scroll Indicator */
@@ -2658,7 +2591,7 @@ html.lenis, html.lenis body {
   .hero-section.dennis-fullscreen-hero {
     height: 100svh;
     min-height: 560px;
-    background-color: #A0A3A3;
+    background-color: var(--bg-primary);
   }
 
   .hero-portrait-stage {
@@ -2718,16 +2651,16 @@ html.lenis, html.lenis body {
   .hero-meta-right-role {
     left: 1.15rem;
     right: auto;
-    top: 3.25rem;
+    top: calc(var(--header-height) + 0.6rem);
     bottom: auto;
     transform: none;
     gap: 0.5rem;
   }
 
   .role-arrow-circle {
-    width: 30px;
-    height: 30px;
-    font-size: 0.78rem;
+    width: 28px;
+    height: 28px;
+    font-size: 0.72rem;
   }
 
   .role-sub {
@@ -2735,28 +2668,7 @@ html.lenis, html.lenis body {
   }
 
   .role-main {
-    font-size: 0.8rem;
-  }
-
-  .navbar-custom {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-    height: 60px;
-    background: transparent;
-  }
-
-  .navbar-custom .brand-logo,
-  .navbar-custom .nav-links {
-    display: none;
-  }
-
-  .navbar-custom.scrolled {
-    background-color: rgba(8, 8, 8, 0.95);
-  }
-
-  .navbar-custom.scrolled .brand-logo {
-    display: flex;
+    font-size: 0.78rem;
   }
 
   .about-narrative {

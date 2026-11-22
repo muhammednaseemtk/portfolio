@@ -155,9 +155,8 @@ function initHeroCinematicScroll() {
   const heroSection = document.getElementById('home');
   const portraitStage = document.getElementById('hero-portrait-stage');
   const portraitImg = document.getElementById('hero-center-portrait-img');
-  const sideDetails = document.querySelectorAll('.hero-meta-top-left, .hero-meta-top-right, .hero-meta-left-panel, .hero-meta-right-role');
+  const sideDetails = document.querySelectorAll('.hero-meta-left-panel, .hero-meta-right-role');
   const marqueeTrack = document.getElementById('hero-marquee-track');
-  const curveDivider = document.querySelector('.hero-curve-divider');
 
   if (!heroSection) return;
 
@@ -218,17 +217,7 @@ function initHeroCinematicScroll() {
       }, 0);
     }
 
-    // D. Curve divider expands smoothly as user scrolls into the About section
-    if (curveDivider) {
-      heroTl.to(curveDivider, {
-        scaleY: 1.35,
-        transformOrigin: 'bottom center',
-        ease: 'power1.in',
-        duration: 1
-      }, 0);
-    }
-
-    // E. Portrait gently settles into the dark background transition
+    // D. Portrait gently settles into the dark background transition
     if (portraitStage) {
       heroTl.to(portraitStage, {
         opacity: 0.2,
