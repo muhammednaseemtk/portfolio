@@ -540,36 +540,94 @@ h6 {
 }
 
 /* --------------------------------------------------------------------------
-   8. HERO SECTION ALIGNMENT
+   8. DENNIS SNELLENBERG INSPIRED LUXURY HERO SECTION
    -------------------------------------------------------------------------- */
 .hero-section {
-  min-height: calc(100vh - var(--header-height));
-  display: flex;
-  align-items: center;
-  padding-top: calc(var(--header-height) + 1rem);
-  padding-bottom: 2.5rem;
+  min-height: 100vh;
   position: relative;
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  align-items: center;
-  gap: 2.75rem;
-  width: 100%;
-}
-
-.hero-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: calc(var(--header-height) + 1.25rem);
+  padding-bottom: 2rem;
+  overflow: hidden;
+  background-color: var(--bg-primary);
 }
 
+/* Background Ambient Glow Behind Portrait */
+.hero-portrait-ambient {
+  position: absolute;
+  top: 40%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: min(850px, 95vw);
+  height: min(850px, 95vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(197, 164, 109, 0.08) 0%, rgba(8, 8, 8, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(50px);
+}
+
+/* Top Meta Bar (Dennis Snellenberg Signature) */
+.hero-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 1.25rem;
+  position: relative;
+  z-index: 10;
+  gap: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.hero-meta-item .meta-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-meta-item .meta-value {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.globe-spin {
+  display: inline-block;
+  color: var(--accent-gold);
+  animation: globeRotate 24s linear infinite;
+}
+
+@keyframes globeRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Status Badge */
 .status-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  padding: 0.35rem 1rem;
+  padding: 0.4rem 1.15rem;
   background: rgba(197, 164, 109, 0.08);
   border: 1px solid var(--border-gold);
   border-radius: var(--radius-full);
@@ -577,7 +635,7 @@ h6 {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent-gold);
-  margin-bottom: 1rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
 }
 
 .status-dot {
@@ -602,15 +660,174 @@ h6 {
     transform: scale(0.9);
     opacity: 1;
   }
-
   100% {
     transform: scale(2.6);
     opacity: 0;
   }
 }
 
+/* ==========================================================================
+   COLOSSAL KINETIC MARQUEE TRACK (DENNIS SNELLENBERG SIGNATURE)
+   ========================================================================== */
+.hero-marquee-wrap {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.hero-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.hero-marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 2.75rem;
+  padding-right: 2.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 11vw, 11.5rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.marquee-solid {
+  color: rgba(245, 245, 245, 0.05);
+}
+
+.marquee-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(197, 164, 109, 0.22);
+}
+
+.marquee-sep {
+  color: var(--accent-gold);
+  opacity: 0.4;
+  font-size: 0.6em;
+}
+
+/* ==========================================================================
+   HERO STAGE & LARGE PORTRAIT SHOWCASE
+   ========================================================================== */
+.hero-stage-container {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 6rem;
+}
+
+.hero-stage-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  align-items: center;
+  gap: 3.75rem;
+  width: 100%;
+  margin-bottom: 1.75rem;
+}
+
+/* Dominant Portrait Column */
+.hero-portrait-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-portrait-frame {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: clamp(520px, 64vh, 680px);
+  will-change: transform;
+}
+
+.hero-portrait-glow {
+  position: absolute;
+  inset: -15px;
+  border-radius: 28px;
+  background: radial-gradient(circle, rgba(197, 164, 109, 0.22) 0%, rgba(8, 8, 8, 0) 70%);
+  filter: blur(30px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.hero-portrait-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #111111;
+  border: 1px solid rgba(197, 164, 109, 0.3);
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 45px rgba(197, 164, 109, 0.09);
+}
+
+.hero-portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 18%;
+  display: block;
+  filter: contrast(1.05) brightness(0.98);
+  transform: scale(1.08);
+  opacity: 0;
+  transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, filter var(--transition-normal);
+}
+
+.hero-revealed .hero-portrait-img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.hero-portrait-frame:hover .hero-portrait-img {
+  filter: contrast(1.08) brightness(1.02);
+  transform: scale(1.02);
+}
+
+.hero-portrait-gradient-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38%;
+  background: linear-gradient(to bottom, rgba(8, 8, 8, 0) 0%, rgba(8, 8, 8, 0.5) 55%, #080808 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Editorial Content Column */
+.hero-content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 4;
+}
+
+.hero-content-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .hero-name {
-  font-size: clamp(2.4rem, 4.6vw, 4.2rem);
+  font-size: clamp(2.5rem, 4.5vw, 4.4rem);
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 0.85rem;
@@ -618,10 +835,10 @@ h6 {
 }
 
 .hero-role-wrapper {
-  font-size: clamp(1.2rem, 2.1vw, 1.75rem);
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
   min-height: 2.2rem;
   display: flex;
   align-items: center;
@@ -638,12 +855,10 @@ h6 {
 }
 
 @keyframes blinkCursor {
-
   0%,
   100% {
     border-color: var(--accent-gold);
   }
-
   50% {
     border-color: transparent;
   }
@@ -653,8 +868,8 @@ h6 {
   font-size: 1.05rem;
   color: var(--text-secondary);
   line-height: 1.7;
-  max-width: 580px;
-  margin-bottom: 1.5rem;
+  max-width: 540px;
+  margin-bottom: 1.75rem;
 }
 
 .hero-cta-group {
@@ -662,11 +877,11 @@ h6 {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.85rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
   width: 100%;
 }
 
-.hero-socials {
+.hero-socials-wrap {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -678,6 +893,12 @@ h6 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+.hero-socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .social-icon-btn {
@@ -703,144 +924,10 @@ h6 {
   box-shadow: 0 6px 18px rgba(197, 164, 109, 0.2);
 }
 
-/* Portrait Card */
-.hero-visual-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  width: 100%;
-}
-
-.avatar-container {
-  position: relative;
-  width: 360px;
-  height: 360px;
-  max-width: 100%;
-}
-
-.avatar-glow-ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: var(--radius-lg);
-  background: var(--gold-gradient);
-  filter: blur(20px);
-  opacity: 0.22;
-}
-
-.avatar-border {
-  position: absolute;
-  inset: -1px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-gold);
-  z-index: 1;
-}
-
-.avatar-img-box {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background-color: var(--bg-secondary);
-  z-index: 2;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
-}
-
-.avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
-  display: block;
-  filter: contrast(1.04) brightness(0.98);
-  transition: transform var(--transition-slow);
-}
-
-.avatar-container:hover .avatar-img {
-  transform: scale(1.04);
-}
-
-/* Floating Chips - Positioned without horizontal overflow */
-.floating-chip {
-  position: absolute;
-  padding: 0.65rem 1.1rem;
-  background: rgba(21, 21, 21, 0.94);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-card);
-  border-radius: var(--radius-md);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  z-index: 3;
-  animation: floatChip 7s ease-in-out infinite alternate;
-}
-
-.chip-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.05rem;
-  flex-shrink: 0;
-}
-
-.chip-icon.flutter {
-  background: rgba(197, 164, 109, 0.12);
-  color: var(--accent-gold);
-  border: 1px solid var(--border-gold);
-}
-
-.chip-icon.architecture {
-  background: rgba(255, 255, 255, 0.05);
-  color: #F5F5F5;
-  border: 1px solid var(--border-subtle);
-}
-
-.chip-text strong {
-  display: block;
-  font-size: 0.82rem;
-  color: var(--text-primary);
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.chip-text span {
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-}
-
-.chip-top-right {
-  top: -12px;
-  right: -15px;
-  animation-delay: 0s;
-}
-
-.chip-bottom-left {
-  bottom: -15px;
-  left: -15px;
-  animation-delay: 1.8s;
-}
-
-@keyframes floatChip {
-  0% {
-    transform: translateY(0);
-  }
-
-
-  100% {
-    transform: translateY(-8px);
-  }
-}
-
 /* Bottom Hero Scroll Indicator */
 .hero-scroll-indicator {
   position: absolute;
-  bottom: 1rem;
+  bottom: 0.75rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -854,6 +941,7 @@ h6 {
   text-transform: uppercase;
   text-decoration: none;
   transition: color var(--transition-fast);
+  z-index: 10;
 }
 
 .hero-scroll-indicator:hover {
@@ -2169,21 +2257,57 @@ textarea.form-control {
 
   .hero-section {
     min-height: auto;
-    padding-top: calc(var(--header-height) + 1.25rem);
+    padding-top: calc(var(--header-height) + 1rem);
     padding-bottom: 2.5rem;
   }
 
-  .hero-grid {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2.25rem;
+  .hero-meta-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    gap: 0.75rem;
   }
 
-  .hero-content {
+  .hero-meta-discipline {
+    display: none;
+  }
+
+  .hero-stage-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+
+  .hero-portrait-col {
+    order: 1;
+  }
+
+  .hero-portrait-frame {
+    max-width: 380px;
+    height: 480px;
+    margin: 0 auto;
+  }
+
+  .hero-content-col {
+    order: 2;
     align-items: center;
   }
 
+  .hero-content-inner {
+    align-items: center;
+  }
+
+  .hero-role-wrapper {
+    justify-content: center;
+  }
+
   .hero-cta-group {
+    justify-content: center;
+  }
+
+  .hero-socials-wrap {
     justify-content: center;
   }
 
@@ -2342,12 +2466,12 @@ html.lenis, html.lenis body {
   will-change: opacity, transform;
 }
 
-.hero-revealed .hero-socials .social-icon-btn:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.80s; }
-.hero-revealed .hero-socials .social-icon-btn:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.87s; }
-.hero-revealed .hero-socials .social-icon-btn:nth-child(4) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.94s; }
+.hero-revealed .hero-socials .social-icon-btn:nth-child(1) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.80s; }
+.hero-revealed .hero-socials .social-icon-btn:nth-child(2) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.87s; }
+.hero-revealed .hero-socials .social-icon-btn:nth-child(3) { opacity: 1; transform: translateY(0) scale(1); transition-delay: 0.94s; }
 
-/* Hero Avatar Parallax & Depth */
-.avatar-container {
+/* Hero Portrait Parallax & Depth */
+.hero-portrait-frame {
   will-change: transform;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -2605,22 +2729,13 @@ html.lenis, html.lenis body {
   }
 
   .hero-name {
-    font-size: 2.4rem;
+    font-size: 2.35rem;
   }
 
-  .avatar-container {
-    width: 270px;
-    height: 270px;
-  }
-
-  .chip-top-right {
-    right: 0;
-    top: -10px;
-  }
-
-  .chip-bottom-left {
-    left: 0;
-    bottom: -10px;
+  .hero-portrait-frame {
+    max-width: 330px;
+    height: 440px;
+    margin: 0 auto;
   }
 
   .hero-cta-group {
@@ -2700,37 +2815,25 @@ html.lenis, html.lenis body {
   }
 
   .hero-name {
-    font-size: 2rem;
+    font-size: 1.95rem;
     word-break: break-word;
   }
 
   .hero-role-wrapper {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
-  .avatar-container {
-    width: 240px;
-    height: 240px;
-    max-width: 80vw;
+  .hero-portrait-frame {
+    max-width: 290px;
+    height: 390px;
   }
 
-  .floating-chip {
-    padding: 0.45rem 0.75rem;
-    gap: 0.5rem;
+  .hero-meta-bar {
+    gap: 0.75rem;
   }
 
-  .chip-icon {
-    width: 26px;
-    height: 26px;
-    font-size: 0.9rem;
-  }
-
-  .chip-text strong {
-    font-size: 0.74rem;
-  }
-
-  .chip-text span {
-    font-size: 0.65rem;
+  .hero-meta-item .meta-value {
+    font-size: 0.85rem;
   }
 
   .skills-items-grid {

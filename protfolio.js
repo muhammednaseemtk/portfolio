@@ -84,29 +84,80 @@ function initReadingProgressBar() {
 }
 
 /* --------------------------------------------------------------------------
-   0.2 HERO OPENING CHOREOGRAPHY & PARALLAX
+   0.2 DENNIS SNELLENBERG HERO CHOREOGRAPHY, KINETIC MARQUEE & PARALLAX
    -------------------------------------------------------------------------- */
 function initHeroReveal() {
   const heroSection = document.getElementById('home');
   if (!heroSection) return;
 
+  // Add revealed class for smooth initial load choreography
   requestAnimationFrame(() => {
     heroSection.classList.add('hero-revealed');
   });
+
+  initHeroMarquee();
+}
+
+function initHeroMarquee() {
+  const marqueeTrack = document.getElementById('hero-marquee-track');
+  if (!marqueeTrack) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  let marqueePos = 0;
+  const baseSpeed = 0.055; // Smooth continuous crawl speed
+  let scrollBoost = 0;
+  let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+
+  // Scroll velocity listener to interact dynamically with user movement
+  window.addEventListener('scroll', () => {
+    const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    const diff = scrollY - lastScrollY;
+    lastScrollY = scrollY;
+
+    // Responsive boost based on scroll velocity
+    scrollBoost = Math.max(-0.6, Math.min(0.6, diff * 0.018));
+  }, { passive: true });
+
+  function step() {
+    // Decay the scroll boost back to 0 smoothly
+    scrollBoost *= 0.94;
+
+    marqueePos -= (baseSpeed + scrollBoost);
+    if (marqueePos <= -50) {
+      marqueePos = 0;
+    } else if (marqueePos > 0) {
+      marqueePos = -50;
+    }
+
+    marqueeTrack.style.transform = `translate3d(${marqueePos}%, 0, 0)`;
+    requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
 }
 
 function initHeroParallax() {
-  const avatar = document.querySelector('.avatar-container');
+  const portraitFrame = document.getElementById('hero-portrait-frame');
+  const portraitImg = document.getElementById('hero-portrait-img');
   const heroSection = document.getElementById('home');
-  if (!avatar || !heroSection) return;
+  if (!portraitFrame || !heroSection) return;
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 
   window.addEventListener('scroll', () => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollY < window.innerHeight) {
-      avatar.style.transform = `translateY(${scrollY * 0.08}px)`;
+    const heroH = heroSection.offsetHeight;
+
+    if (scrollY < heroH + 100) {
+      // Gentle depth parallax on frame
+      portraitFrame.style.transform = `translate3d(0, ${scrollY * 0.12}px, 0)`;
+      // Subtle scaling shift to simulate 3D camera depth
+      if (portraitImg) {
+        portraitImg.style.transform = `scale(${1 + scrollY * 0.00012})`;
+      }
     }
   }, { passive: true });
 }
