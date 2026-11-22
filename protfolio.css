@@ -398,33 +398,6 @@ h6 {
   color: var(--accent-gold);
 }
 
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-}
-
-/* Navigation Menu Toggle Button */
-.mobile-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: none;
-  color: var(--text-primary);
-  font-size: 1.4rem;
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: var(--radius-sm);
-  transition: color var(--transition-fast), transform var(--transition-fast);
-  z-index: 1001;
-}
-
-.mobile-toggle:hover {
-  color: var(--accent-gold);
-  transform: scale(1.08);
-}
-
 /* Mobile Drawer */
 .mobile-drawer {
   position: fixed;
@@ -435,12 +408,51 @@ h6 {
   height: 100vh;
   background: #0d0d0d;
   border-left: 1px solid var(--border-card);
-  padding: 5.5rem 2rem 2rem 2rem;
+  padding: 2.25rem 2rem 2rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: right var(--transition-normal);
-  z-index: 999;
+  z-index: 1002;
+}
+
+.mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-card);
+}
+
+.drawer-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent-gold);
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: 1px solid var(--border-gold);
+  color: var(--text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.drawer-close-btn:hover {
+  background: rgba(197, 164, 109, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  transform: rotate(90deg);
 }
 
 .mobile-drawer.open {
@@ -595,10 +607,10 @@ h6 {
 .hero-marquee-segment {
   display: flex;
   align-items: center;
-  gap: 3.5rem;
-  padding-right: 3.5rem;
+  gap: 2.75rem;
+  padding-right: 2.75rem;
   font-family: var(--font-display);
-  font-size: clamp(6.5rem, 16vw, 16.5rem);
+  font-size: clamp(5rem, 12.5vw, 12.8rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   text-transform: uppercase;
@@ -1962,103 +1974,65 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
-   17B. MODERN DARK LUXURY CUSTOM CURSOR
+   17B. MINIMAL WHITE ARROW POINTER
    -------------------------------------------------------------------------- */
-.custom-cursor-follower {
+.custom-pointer {
   position: fixed;
   top: 0;
   left: 0;
-  width: 32px;
-  height: 32px;
-  margin-top: -16px;
-  margin-left: -16px;
-  border-radius: 50%;
-  border: 1.2px solid var(--accent-gold);
-  background: rgba(197, 164, 109, 0.04);
   pointer-events: none;
   z-index: 999999;
   opacity: 0;
-  box-shadow: 0 0 14px rgba(197, 164, 109, 0.22);
-  transition: opacity 0.3s ease,
-              width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              margin 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.28s ease,
-              border-color 0.28s ease,
-              box-shadow 0.28s ease,
-              transform 0.15s ease;
+  transform: translate3d(-100px, -100px, 0);
+  transform-origin: 0 0;
+  transition: opacity 0.25s ease;
   will-change: transform;
 }
 
-.custom-cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 5px;
-  margin-top: -2.5px;
-  margin-left: -2.5px;
-  border-radius: 50%;
-  background-color: var(--accent-gold);
-  pointer-events: none;
-  z-index: 1000000;
-  opacity: 0;
-  box-shadow: 0 0 8px rgba(197, 164, 109, 0.7);
-  transition: opacity 0.2s ease, transform 0.15s ease;
-  will-change: transform;
+.custom-pointer-svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.2s ease;
+  transform-origin: 0 0;
 }
 
-/* Active state when mouse is over viewport */
-.custom-cursor-follower.is-active,
-.custom-cursor-dot.is-active {
+/* Active state when pointer enters screen */
+.custom-pointer.is-active {
   opacity: 1;
 }
 
-/* Hovering over links & interactive anchors */
-.custom-cursor-follower.is-hover-link {
-  width: 46px;
-  height: 46px;
-  margin-top: -23px;
-  margin-left: -23px;
-  border-color: var(--accent-gold-light);
-  background: rgba(197, 164, 109, 0.12);
-  box-shadow: 0 0 22px rgba(197, 164, 109, 0.45);
+/* Hidden over text input areas */
+.custom-pointer.is-input {
+  opacity: 0;
 }
 
-/* Hovering over action buttons & CTA */
-.custom-cursor-follower.is-hover-btn {
-  width: 54px;
-  height: 54px;
-  margin-top: -27px;
-  margin-left: -27px;
-  border-color: #eed29e;
-  background: rgba(197, 164, 109, 0.18);
-  box-shadow: 0 0 28px rgba(197, 164, 109, 0.55);
+/* Subtle Hover: Buttons & CTA */
+.custom-pointer.is-hover-btn .custom-pointer-svg {
+  transform: scale(1.14) rotate(-3deg);
+  filter: drop-shadow(0 3px 10px rgba(197, 164, 109, 0.45)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 
-/* Hovering over project cards & interactive category cards */
-.custom-cursor-follower.is-hover-card {
-  width: 66px;
-  height: 66px;
-  margin-top: -33px;
-  margin-left: -33px;
-  border-color: rgba(197, 164, 109, 0.85);
-  background: rgba(197, 164, 109, 0.08);
-  box-shadow: 0 0 32px rgba(197, 164, 109, 0.38);
+/* Subtle Hover: Links & Nav */
+.custom-pointer.is-hover-link .custom-pointer-svg {
+  transform: scale(1.08);
+  filter: drop-shadow(0 2px 8px rgba(197, 164, 109, 0.35)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+}
+
+/* Subtle Hover: Project & Skill Cards */
+.custom-pointer.is-hover-card .custom-pointer-svg {
+  transform: scale(1.18);
+  filter: drop-shadow(0 4px 14px rgba(197, 164, 109, 0.4)) drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6));
 }
 
 /* Tactile Click / Active State */
-.custom-cursor-follower.is-clicking {
-  transform: scale(0.82);
-  background: rgba(197, 164, 109, 0.25);
+.custom-pointer.is-clicking .custom-pointer-svg {
+  transform: scale(0.9);
 }
 
-.custom-cursor-dot.is-clicking {
-  transform: scale(1.5);
-  box-shadow: 0 0 12px rgba(197, 164, 109, 0.9);
-}
-
-/* Desktop Fine Pointer: Hide system default cursor once custom cursor activates */
+/* Desktop Fine Pointer: Hide system default cursor once custom pointer activates */
 @media (hover: hover) and (pointer: fine) {
   body.custom-cursor-enabled,
   body.custom-cursor-enabled a,
@@ -2080,10 +2054,9 @@ textarea.form-control {
   }
 }
 
-/* Mobile & Touch Devices: Fully hide custom cursor elements, native touch unaffected */
+/* Mobile & Touch Devices: Fully hide custom pointer elements, native touch unaffected */
 @media (hover: none), (pointer: coarse) {
-  .custom-cursor-follower,
-  .custom-cursor-dot {
+  .custom-pointer {
     display: none !important;
     visibility: hidden !important;
   }
@@ -2164,9 +2137,9 @@ textarea.form-control {
   }
 
   .hero-marquee-segment {
-    font-size: clamp(5rem, 14vw, 10rem);
-    gap: 2.5rem;
-    padding-right: 2.5rem;
+    font-size: clamp(3.9rem, 10.9vw, 7.8rem);
+    gap: 2rem;
+    padding-right: 2rem;
   }
 
   .hero-meta-right-role {
@@ -2602,9 +2575,9 @@ html.lenis, html.lenis body {
   }
 
   .hero-marquee-segment {
-    font-size: clamp(3.8rem, 15vw, 6.2rem);
-    gap: 1.8rem;
-    padding-right: 1.8rem;
+    font-size: clamp(2.9rem, 11.5vw, 4.8rem);
+    gap: 1.4rem;
+    padding-right: 1.4rem;
   }
 
   .hero-marquee-wrap {
@@ -2706,7 +2679,9 @@ html.lenis, html.lenis body {
   }
 
   .hero-marquee-segment {
-    font-size: clamp(3rem, 13vw, 4.2rem);
+    font-size: clamp(2.3rem, 10vw, 3.3rem);
+    gap: 1.1rem;
+    padding-right: 1.1rem;
   }
 
   .hero-corner-tl {

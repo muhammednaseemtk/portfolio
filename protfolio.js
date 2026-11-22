@@ -534,8 +534,8 @@ function initNavbarScroll() {
       const sectionHeader = sectionEl.querySelector('.section-header') || sectionEl;
       const headerTop = getTrueElementTop(sectionHeader);
       // Sticky navbar is 72px when scrolled. Provide an optimal, balanced 28px clearance below it.
-      const navbarScrolledHeight = 72;
-      const clearance = 28;
+      const navbarScrolledHeight = navbar ? 72 : 0;
+      const clearance = navbar ? 28 : 40;
       return Math.max(0, headerTop - navbarScrolledHeight - clearance);
     };
 
@@ -617,29 +617,42 @@ function initNavbarScroll() {
    2. MOBILE NAVIGATION DRAWER
    -------------------------------------------------------------------------- */
 function initMobileMenu() {
-  const mobileToggle = document.getElementById('mobile-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
   const mobileOverlay = document.getElementById('mobile-drawer-overlay');
+  const drawerCloseBtn = document.getElementById('drawer-close-btn');
+  const brandMonogram = document.querySelector('.brand-monogram');
   const mobileLinks = document.querySelectorAll('.mobile-nav-links a, .mobile-drawer .btn');
 
-  if (!mobileToggle || !mobileDrawer || !mobileOverlay) return;
+  if (!mobileDrawer || !mobileOverlay) return;
 
   const toggleMenu = (open) => {
     const isOpen = open !== undefined ? open : !mobileDrawer.classList.contains('open');
     if (isOpen) {
       mobileDrawer.classList.add('open');
       mobileOverlay.classList.add('active');
-      mobileToggle.innerHTML = '<i class="fa-solid fa-xmark"></i>';
       document.body.style.overflow = 'hidden';
     } else {
       mobileDrawer.classList.remove('open');
       mobileOverlay.classList.remove('active');
-      mobileToggle.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
       document.body.style.overflow = '';
     }
   };
 
-  mobileToggle.addEventListener('click', () => toggleMenu());
+  // On touch/mobile viewports, tapping the brand monogram opens the drawer cleanly
+  if (brandMonogram) {
+    brandMonogram.addEventListener('click', (e) => {
+      if (window.innerWidth <= 991) {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleMenu(true);
+      }
+    });
+  }
+
+  if (drawerCloseBtn) {
+    drawerCloseBtn.addEventListener('click', () => toggleMenu(false));
+  }
+
   mobileOverlay.addEventListener('click', () => toggleMenu(false));
 
   mobileLinks.forEach((link) => {
@@ -1172,7 +1185,7 @@ function hideFormStatus() {
 }
 
 /* --------------------------------------------------------------------------
-   19. MODERN DARK LUXURY CUSTOM CURSOR
+   19. MINIMAL WHITE ARROW POINTER
    -------------------------------------------------------------------------- */
 function initCustomCursor() {
   // Hide and disable on touch/coarse devices
@@ -1180,12 +1193,11 @@ function initCustomCursor() {
     ('ontouchstart' in window && !window.matchMedia('(pointer: fine)').matches);
   if (isTouchDevice) return;
 
-  const follower = document.getElementById('cursor-follower');
-  const dot = document.getElementById('cursor-dot');
-  if (!follower || !dot) return;
+  const pointer = document.getElementById('custom-pointer');
+  if (!pointer) return;
 
   let mouseX = -100, mouseY = -100;
-  let followerX = -100, followerY = -100;
+  let pointerX = -100, pointerY = -100;
   let isVisible = false;
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1196,57 +1208,48 @@ function initCustomCursor() {
 
     if (!isVisible) {
       isVisible = true;
-      follower.classList.add('is-active');
-      dot.classList.add('is-active');
+      pointer.classList.add('is-active');
       document.body.classList.add('custom-cursor-enabled');
-      if (followerX === -100) {
-        followerX = mouseX;
-        followerY = mouseY;
-      }
+      pointerX = mouseX;
+      pointerY = mouseY;
     }
 
-    // Dot snaps immediately with zero latency for precision
-    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+    if (prefersReduced) {
+      pointer.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+    }
   }, { passive: true });
 
-  // Smooth lerp loop for the outer ring follower
-  function loop() {
-    if (isVisible) {
-      if (prefersReduced) {
-        followerX = mouseX;
-        followerY = mouseY;
-      } else {
-        followerX += (mouseX - followerX) * 0.2;
-        followerY += (mouseY - followerY) * 0.2;
+  // Responsive, natural easing loop (crisp 0.45 lerp for near-instant native feel with zero drag)
+  if (!prefersReduced) {
+    function loop() {
+      if (isVisible) {
+        pointerX += (mouseX - pointerX) * 0.45;
+        pointerY += (mouseY - pointerY) * 0.45;
+        pointer.style.transform = `translate3d(${pointerX}px, ${pointerY}px, 0)`;
       }
-      follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+      requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
   }
-  requestAnimationFrame(loop);
 
   // Viewport exit / enter handling
   window.addEventListener('mouseleave', () => {
     isVisible = false;
-    follower.classList.remove('is-active');
-    dot.classList.remove('is-active');
+    pointer.classList.remove('is-active');
   });
 
   window.addEventListener('mouseenter', () => {
     isVisible = true;
-    follower.classList.add('is-active');
-    dot.classList.add('is-active');
+    pointer.classList.add('is-active');
   });
 
   // Tactile click feedback
   window.addEventListener('mousedown', () => {
-    follower.classList.add('is-clicking');
-    dot.classList.add('is-clicking');
+    pointer.classList.add('is-clicking');
   });
 
   window.addEventListener('mouseup', () => {
-    follower.classList.remove('is-clicking');
-    dot.classList.remove('is-clicking');
+    pointer.classList.remove('is-clicking');
   });
 
   // Interactive element hover detection via event delegation
@@ -1255,30 +1258,36 @@ function initCustomCursor() {
     if (!target) return;
 
     // A. Action buttons & primary CTA
-    if (target.closest('.btn, button, input[type="submit"], [role="button"], .modal-close, .scroll-top-btn')) {
-      follower.classList.add('is-hover-btn');
-      follower.classList.remove('is-hover-link', 'is-hover-card');
+    if (target.closest('.btn, button, input[type="submit"], [role="button"], .scroll-top-btn, .drawer-close-btn')) {
+      pointer.classList.add('is-hover-btn');
+      pointer.classList.remove('is-hover-link', 'is-hover-card', 'is-input');
     }
     // B. Interactive Cards (Project Cards, Skill Cards, Category Cards)
     else if (target.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card')) {
-      follower.classList.add('is-hover-card');
-      follower.classList.remove('is-hover-btn', 'is-hover-link');
+      pointer.classList.add('is-hover-card');
+      pointer.classList.remove('is-hover-btn', 'is-hover-link', 'is-input');
     }
     // C. Links & Navigation items
     else if (target.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge')) {
-      follower.classList.add('is-hover-link');
-      follower.classList.remove('is-hover-btn', 'is-hover-card');
+      pointer.classList.add('is-hover-link');
+      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-input');
+    }
+    // D. Text inputs
+    else if (target.closest('input, textarea, select')) {
+      pointer.classList.add('is-input');
+      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link');
     }
   }, { passive: true });
 
   document.addEventListener('mouseout', (e) => {
     const related = e.relatedTarget;
     if (!related || (
-      !related.closest('.btn, button, input[type="submit"], [role="button"], .modal-close, .scroll-top-btn') &&
+      !related.closest('.btn, button, input[type="submit"], [role="button"], .scroll-top-btn, .drawer-close-btn') &&
       !related.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card') &&
-      !related.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge')
+      !related.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge') &&
+      !related.closest('input, textarea, select')
     )) {
-      follower.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link');
+      pointer.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link', 'is-input');
     }
   }, { passive: true });
 }

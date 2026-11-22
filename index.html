@@ -66,28 +66,17 @@
   <div class="ambient-glow glow-3"></div>
   <div class="bg-grid-overlay"></div>
 
-  <!-- ========================================================================
-       FLOATING MINIMAL NAVIGATION BAR
-       ======================================================================== -->
-  <header class="navbar-custom">
-    <div class="container navbar-inner">
-      <a href="#home" class="brand-logo" aria-label="Naseem Portfolio Home">
-        <div class="brand-monogram">N</div>
-        <span>Naseem</span>
-      </a>
 
-      <!-- Navigation Menu Toggle -->
-      <div class="nav-actions">
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
-          <i class="fa-solid fa-bars-staggered"></i>
-        </button>
-      </div>
-    </div>
-  </header>
 
   <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
   <aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+    <div class="mobile-drawer-header">
+      <span class="drawer-title">Navigation</span>
+      <button class="drawer-close-btn" id="drawer-close-btn" aria-label="Close Navigation Menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
     <ul class="mobile-nav-links">
       <li><a href="#home"><i class="fa-solid fa-house"></i> Home</a></li>
       <li><a href="#about"><i class="fa-solid fa-user"></i> About</a></li>
@@ -914,9 +903,16 @@
     </div>
   </div>
 
-  <!-- Custom Dark Luxury Cursor -->
-  <div class="custom-cursor-follower" id="cursor-follower" aria-hidden="true"></div>
-  <div class="custom-cursor-dot" id="cursor-dot" aria-hidden="true"></div>
+  <!-- Custom Minimal White Arrow Pointer -->
+  <div class="custom-pointer" id="custom-pointer" aria-hidden="true">
+    <svg class="custom-pointer-svg" viewBox="0 0 24 24" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0L0 18L5.3 13.3L10 21L13 19.3L8.3 11.7L15 11.7L0 0Z" 
+            fill="#FFFFFF" 
+            stroke="#0a0a0a" 
+            stroke-width="1.2" 
+            stroke-linejoin="round" />
+    </svg>
+  </div>
 
   <!-- ========================================================================
        SCROLL TO TOP BUTTON (WITH CIRCULAR PROGRESS METER)
