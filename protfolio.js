@@ -155,7 +155,7 @@ function initHeroCinematicScroll() {
   const heroSection = document.getElementById('home');
   const portraitStage = document.getElementById('hero-portrait-stage');
   const portraitImg = document.getElementById('hero-center-portrait-img');
-  const sideDetails = document.querySelectorAll('.hero-meta-left-panel, .hero-meta-right-role');
+  const sideDetails = document.querySelectorAll('.hero-meta-right-role');
   const marqueeTrack = document.getElementById('hero-marquee-track');
 
   if (!heroSection) return;
