@@ -135,29 +135,20 @@
        ======================================================================== -->
   <main>
     <section class="hero-section dennis-fullscreen-hero" id="home">
-      <!-- Layer 1: Ambient Background Glow -->
-      <div class="hero-bg-glow" aria-hidden="true"></div>
+      <!-- 1. Solid Light Grey Background Canvas (#A0A3A3) -->
+      <div class="hero-canvas-bg" aria-hidden="true"></div>
 
-      <!-- Layer 2: Large Personal Portrait in Exact Visual Center -->
-      <div class="hero-portrait-stage" id="hero-portrait-stage">
-        <div class="hero-portrait-container" id="hero-portrait-container">
-          <img src="naseem.png" alt="Muhammed Naseem T K - Flutter Developer" class="hero-center-portrait-img"
-            id="hero-center-portrait-img" />
-          <div class="hero-portrait-fade-bottom" aria-hidden="true"></div>
-        </div>
-      </div>
-
-      <!-- Layer 3: Oversized Moving Name Typography Across The Portrait -->
+      <!-- 2. Oversized Moving Name Typography Across The Portrait -->
       <div class="hero-marquee-wrap" aria-hidden="true">
         <div class="hero-marquee-track" id="hero-marquee-track">
           <div class="hero-marquee-segment">
-            <span class="marquee-name-bold">MUHAMMED NASEEM</span>
+            <span class="marquee-name-bold">NASEEM</span>
             <span class="marquee-dot">—</span>
             <span class="marquee-role-stroke">FLUTTER DEVELOPER</span>
             <span class="marquee-dot">—</span>
           </div>
           <div class="hero-marquee-segment">
-            <span class="marquee-name-bold">MUHAMMED NASEEM</span>
+            <span class="marquee-name-bold">NASEEM</span>
             <span class="marquee-dot">—</span>
             <span class="marquee-role-stroke">FLUTTER DEVELOPER</span>
             <span class="marquee-dot">—</span>
@@ -165,35 +156,59 @@
         </div>
       </div>
 
-      <!-- Layer 4: Peripheral Supporting Details (Corners) -->
-      <div class="container hero-peripheral-layer">
-        <!-- Top Left Corner: Discipline & Developer Role -->
-        <div class="hero-corner hero-corner-tl">
-          <span class="corner-meta-label">Discipline</span>
-          <h2 class="corner-meta-title">Flutter & Cross-Platform Engineer</h2>
-          <div class="corner-typewriter">
-            <span>Passionate</span>
-            <span id="typewriter" class="typewriter-text">Flutter Developer</span>
-          </div>
-          <p class="corner-meta-desc">
-            Crafting high-performance mobile, web, and responsive digital products with clean architecture and 60 FPS motion.
-          </p>
+      <!-- 3. Central Transparent Cutout Portrait (No rectangular container or card) -->
+      <div class="hero-portrait-stage" id="hero-portrait-stage">
+        <picture>
+          <source srcset="naseem_cutout.webp" type="image/webp">
+          <img src="naseem_cutout.png" alt="Muhammed Naseem T K - Flutter Developer" class="hero-center-portrait-img"
+            id="hero-center-portrait-img" />
+        </picture>
+      </div>
+
+      <!-- 4. Side & Top Peripheral Information (Dennis Snellenberg Signature Layout) -->
+      <div class="hero-details-layer">
+        <!-- Top-Left: Copyright / Personal Branding -->
+        <div class="hero-meta-top-left">
+          <span class="hero-copyright">© Code by Naseem</span>
         </div>
 
-        <!-- Top Right Corner: Availability Status & Location -->
-        <div class="hero-corner hero-corner-tr">
-          <div class="status-badge">
-            <span class="status-dot"></span>
-            <span>Available for Full-time Roles & Projects</span>
-          </div>
-          <div class="corner-location">
-            <span class="corner-meta-label">Location</span>
-            <span class="corner-location-val">
-              <i class="fa-solid fa-earth-americas globe-spin"></i> Kerala, India
+        <!-- Top-Right: Quick Navigation Links -->
+        <nav class="hero-meta-top-right" aria-label="Hero Navigation">
+          <a href="#projects" class="hero-top-link">Work</a>
+          <a href="#about" class="hero-top-link">About</a>
+          <a href="#contact" class="hero-top-link">Contact</a>
+        </nav>
+
+        <!-- Left Side: Dark Rounded Location Panel with Globe -->
+        <div class="hero-meta-left-panel">
+          <div class="hero-location-pill">
+            <span class="globe-icon-sphere">
+              <i class="fa-solid fa-earth-americas globe-spin"></i>
             </span>
+            <div class="location-pill-text">
+              <span class="location-pill-sub">Located in</span>
+              <span class="location-pill-main">Kerala, India</span>
+            </div>
           </div>
         </div>
 
+        <!-- Right Side: Directional Arrow & Developer Role -->
+        <div class="hero-meta-right-role">
+          <div class="role-arrow-circle">
+            <i class="fa-solid fa-arrow-down-long hero-role-arrow"></i>
+          </div>
+          <div class="role-text-col">
+            <span class="role-sub">Freelance</span>
+            <span class="role-main">Flutter & Cross-Platform Developer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Seamless Bottom Curve Divider into Dark Luxury About Section -->
+      <div class="hero-curve-divider" aria-hidden="true">
+        <svg viewBox="0 0 1440 100" fill="none" preserveAspectRatio="none">
+          <path d="M0,0 C480,100 960,100 1440,0 L1440,100 L0,100 Z" fill="#080808"></path>
+        </svg>
       </div>
     </section>
 
