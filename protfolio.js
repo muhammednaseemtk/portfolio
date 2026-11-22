@@ -155,7 +155,6 @@ function initHeroCinematicScroll() {
   const heroSection = document.getElementById('home');
   const portraitStage = document.getElementById('hero-portrait-stage');
   const portraitImg = document.getElementById('hero-center-portrait-img');
-  const sideDetails = document.querySelectorAll('.hero-meta-right-role');
   const marqueeTrack = document.getElementById('hero-marquee-track');
 
   if (!heroSection) return;
@@ -180,18 +179,7 @@ function initHeroCinematicScroll() {
       }
     });
 
-    // A. Supporting side and top details fade out smoothly in the first 25% of scroll
-    if (sideDetails.length) {
-      heroTl.to(sideDetails, {
-        opacity: 0,
-        y: -24,
-        stagger: 0.02,
-        ease: 'power2.in',
-        duration: 0.25
-      }, 0);
-    }
-
-    // B. Portrait cutout scales up slightly and shifts down with smooth parallax
+    // A. Portrait cutout scales up slightly and shifts down with smooth parallax
     if (portraitStage) {
       heroTl.to(portraitStage, {
         yPercent: 14,
