@@ -398,63 +398,17 @@ h6 {
   color: var(--accent-gold);
 }
 
-.nav-links {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 0.35rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-link-item a {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.95rem;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  transition: color var(--transition-fast);
-  border-radius: var(--radius-full);
-}
-
-.nav-link-item a:hover {
-  color: var(--text-primary);
-}
-
-.nav-link-item a.active {
-  color: var(--accent-gold);
-  background: rgba(197, 164, 109, 0.08);
-}
-
-.nav-link-item a::after {
-  content: '';
-  position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 14px;
-  height: 2px;
-  background: var(--accent-gold);
-  border-radius: var(--radius-full);
-  transition: transform var(--transition-normal);
-}
-
-.nav-link-item a.active::after {
-  transform: translateX(-50%) scaleX(1);
-}
-
 .nav-actions {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
 
-/* Mobile Toggle */
+/* Navigation Menu Toggle Button */
 .mobile-toggle {
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: none;
   color: var(--text-primary);
@@ -462,12 +416,13 @@ h6 {
   cursor: pointer;
   padding: 0.5rem;
   border-radius: var(--radius-sm);
-  transition: color var(--transition-fast);
+  transition: color var(--transition-fast), transform var(--transition-fast);
   z-index: 1001;
 }
 
 .mobile-toggle:hover {
   color: var(--accent-gold);
+  transform: scale(1.08);
 }
 
 /* Mobile Drawer */
@@ -721,10 +676,10 @@ h6 {
 }
 
 .role-main {
-  font-family: var(--font-display);
-  font-size: clamp(0.92rem, 1.25vw, 1.15rem);
-  font-weight: 700;
-  letter-spacing: 0.04em;
+  font-family: 'Space Grotesk', 'Sora', 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(0.95rem, 1.25vw, 1.14rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
   color: var(--text-primary);
   line-height: 1.2;
   text-transform: uppercase;
@@ -2007,6 +1962,134 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
+   17B. MODERN DARK LUXURY CUSTOM CURSOR
+   -------------------------------------------------------------------------- */
+.custom-cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  margin-top: -16px;
+  margin-left: -16px;
+  border-radius: 50%;
+  border: 1.2px solid var(--accent-gold);
+  background: rgba(197, 164, 109, 0.04);
+  pointer-events: none;
+  z-index: 999999;
+  opacity: 0;
+  box-shadow: 0 0 14px rgba(197, 164, 109, 0.22);
+  transition: opacity 0.3s ease,
+              width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              margin 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.28s ease,
+              border-color 0.28s ease,
+              box-shadow 0.28s ease,
+              transform 0.15s ease;
+  will-change: transform;
+}
+
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: -2.5px;
+  margin-left: -2.5px;
+  border-radius: 50%;
+  background-color: var(--accent-gold);
+  pointer-events: none;
+  z-index: 1000000;
+  opacity: 0;
+  box-shadow: 0 0 8px rgba(197, 164, 109, 0.7);
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  will-change: transform;
+}
+
+/* Active state when mouse is over viewport */
+.custom-cursor-follower.is-active,
+.custom-cursor-dot.is-active {
+  opacity: 1;
+}
+
+/* Hovering over links & interactive anchors */
+.custom-cursor-follower.is-hover-link {
+  width: 46px;
+  height: 46px;
+  margin-top: -23px;
+  margin-left: -23px;
+  border-color: var(--accent-gold-light);
+  background: rgba(197, 164, 109, 0.12);
+  box-shadow: 0 0 22px rgba(197, 164, 109, 0.45);
+}
+
+/* Hovering over action buttons & CTA */
+.custom-cursor-follower.is-hover-btn {
+  width: 54px;
+  height: 54px;
+  margin-top: -27px;
+  margin-left: -27px;
+  border-color: #eed29e;
+  background: rgba(197, 164, 109, 0.18);
+  box-shadow: 0 0 28px rgba(197, 164, 109, 0.55);
+}
+
+/* Hovering over project cards & interactive category cards */
+.custom-cursor-follower.is-hover-card {
+  width: 66px;
+  height: 66px;
+  margin-top: -33px;
+  margin-left: -33px;
+  border-color: rgba(197, 164, 109, 0.85);
+  background: rgba(197, 164, 109, 0.08);
+  box-shadow: 0 0 32px rgba(197, 164, 109, 0.38);
+}
+
+/* Tactile Click / Active State */
+.custom-cursor-follower.is-clicking {
+  transform: scale(0.82);
+  background: rgba(197, 164, 109, 0.25);
+}
+
+.custom-cursor-dot.is-clicking {
+  transform: scale(1.5);
+  box-shadow: 0 0 12px rgba(197, 164, 109, 0.9);
+}
+
+/* Desktop Fine Pointer: Hide system default cursor once custom cursor activates */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-enabled,
+  body.custom-cursor-enabled a,
+  body.custom-cursor-enabled button,
+  body.custom-cursor-enabled .btn,
+  body.custom-cursor-enabled [role="button"],
+  body.custom-cursor-enabled .brand-logo,
+  body.custom-cursor-enabled .social-icon-btn,
+  body.custom-cursor-enabled .filter-chip,
+  body.custom-cursor-enabled .project-card,
+  body.custom-cursor-enabled .skill-card,
+  body.custom-cursor-enabled .scroll-top-btn {
+    cursor: none !important;
+  }
+
+  body.custom-cursor-enabled input,
+  body.custom-cursor-enabled textarea {
+    cursor: text !important;
+  }
+}
+
+/* Mobile & Touch Devices: Fully hide custom cursor elements, native touch unaffected */
+@media (hover: none), (pointer: coarse) {
+  .custom-cursor-follower,
+  .custom-cursor-dot {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
    18. COMPREHENSIVE RESPONSIVE DESIGN (ALL BREAKPOINTS)
    -------------------------------------------------------------------------- */
 
@@ -2066,13 +2149,8 @@ textarea.form-control {
 /* 4. Portrait Tablets (768px - 991px) */
 @media (max-width: 991px) {
 
-  .nav-links,
   .nav-actions .btn {
     display: none;
-  }
-
-  .mobile-toggle {
-    display: block;
   }
 
   .hero-section.dennis-fullscreen-hero {
@@ -2093,6 +2171,11 @@ textarea.form-control {
 
   .hero-meta-right-role {
     right: 2rem;
+  }
+
+  .hero-meta-right-role .role-main {
+    font-size: 0.95rem;
+    letter-spacing: 0.07em;
   }
 
   .about-grid {
@@ -2544,8 +2627,9 @@ html.lenis, html.lenis body {
   }
 
   .role-main {
+    font-family: 'Space Grotesk', 'Sora', 'Plus Jakarta Sans', sans-serif;
     font-size: clamp(0.72rem, 3.2vw, 0.82rem);
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
   }
 
   .about-narrative {

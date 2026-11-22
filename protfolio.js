@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactReveal();
   initScrollToTop();
   initCopyEmail();
+  initCustomCursor();
 });
 
 /* --------------------------------------------------------------------------
@@ -444,7 +445,7 @@ function initContactReveal() {
 function initNavbarScroll() {
   const navbar = document.querySelector('.navbar-custom');
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link-item a, .mobile-nav-links a');
+  const navLinks = document.querySelectorAll('.mobile-nav-links a');
 
   const setActiveNav = (id) => {
     navLinks.forEach((link) => {
@@ -599,7 +600,7 @@ function initNavbarScroll() {
                   }
 
                   // Set active class on clicked link immediately
-                  const navLinks = document.querySelectorAll('.nav-link-item a, .mobile-nav-links a');
+                  const navLinks = document.querySelectorAll('.mobile-nav-links a');
                   navLinks.forEach((l) => {
                     if (l.getAttribute('href') === hash) {
                       l.classList.add('active');
@@ -1168,4 +1169,116 @@ function hideFormStatus() {
   const statusDiv = document.getElementById('form-status');
   if (!statusDiv) return;
   statusDiv.style.display = 'none';
+}
+
+/* --------------------------------------------------------------------------
+   19. MODERN DARK LUXURY CUSTOM CURSOR
+   -------------------------------------------------------------------------- */
+function initCustomCursor() {
+  // Hide and disable on touch/coarse devices
+  const isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches ||
+    ('ontouchstart' in window && !window.matchMedia('(pointer: fine)').matches);
+  if (isTouchDevice) return;
+
+  const follower = document.getElementById('cursor-follower');
+  const dot = document.getElementById('cursor-dot');
+  if (!follower || !dot) return;
+
+  let mouseX = -100, mouseY = -100;
+  let followerX = -100, followerY = -100;
+  let isVisible = false;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Track cursor movement
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!isVisible) {
+      isVisible = true;
+      follower.classList.add('is-active');
+      dot.classList.add('is-active');
+      document.body.classList.add('custom-cursor-enabled');
+      if (followerX === -100) {
+        followerX = mouseX;
+        followerY = mouseY;
+      }
+    }
+
+    // Dot snaps immediately with zero latency for precision
+    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+  }, { passive: true });
+
+  // Smooth lerp loop for the outer ring follower
+  function loop() {
+    if (isVisible) {
+      if (prefersReduced) {
+        followerX = mouseX;
+        followerY = mouseY;
+      } else {
+        followerX += (mouseX - followerX) * 0.2;
+        followerY += (mouseY - followerY) * 0.2;
+      }
+      follower.style.transform = `translate3d(${followerX}px, ${followerY}px, 0)`;
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  // Viewport exit / enter handling
+  window.addEventListener('mouseleave', () => {
+    isVisible = false;
+    follower.classList.remove('is-active');
+    dot.classList.remove('is-active');
+  });
+
+  window.addEventListener('mouseenter', () => {
+    isVisible = true;
+    follower.classList.add('is-active');
+    dot.classList.add('is-active');
+  });
+
+  // Tactile click feedback
+  window.addEventListener('mousedown', () => {
+    follower.classList.add('is-clicking');
+    dot.classList.add('is-clicking');
+  });
+
+  window.addEventListener('mouseup', () => {
+    follower.classList.remove('is-clicking');
+    dot.classList.remove('is-clicking');
+  });
+
+  // Interactive element hover detection via event delegation
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target;
+    if (!target) return;
+
+    // A. Action buttons & primary CTA
+    if (target.closest('.btn, button, input[type="submit"], [role="button"], .modal-close, .scroll-top-btn')) {
+      follower.classList.add('is-hover-btn');
+      follower.classList.remove('is-hover-link', 'is-hover-card');
+    }
+    // B. Interactive Cards (Project Cards, Skill Cards, Category Cards)
+    else if (target.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card')) {
+      follower.classList.add('is-hover-card');
+      follower.classList.remove('is-hover-btn', 'is-hover-link');
+    }
+    // C. Links & Navigation items
+    else if (target.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge')) {
+      follower.classList.add('is-hover-link');
+      follower.classList.remove('is-hover-btn', 'is-hover-card');
+    }
+  }, { passive: true });
+
+  document.addEventListener('mouseout', (e) => {
+    const related = e.relatedTarget;
+    if (!related || (
+      !related.closest('.btn, button, input[type="submit"], [role="button"], .modal-close, .scroll-top-btn') &&
+      !related.closest('.project-card, .skill-card, .skill-category-card, .featured-project-card, .experience-card') &&
+      !related.closest('a, .nav-link, .brand-logo, .social-icon-btn, .filter-chip, .project-link, .timeline-badge')
+    )) {
+      follower.classList.remove('is-hover-btn', 'is-hover-card', 'is-hover-link');
+    }
+  }, { passive: true });
 }
