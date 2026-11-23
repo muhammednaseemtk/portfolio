@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initProjectLightbox();
   initTimelineProgress();
   initContactReveal();
-  initScrollToTop();
   initCopyEmail();
 });
 
@@ -75,7 +74,7 @@ function initSmoothScrolling() {
 }
 
 /* --------------------------------------------------------------------------
-   0.1 GLOBAL READING PROGRESS BAR (FIXED LUXURY GOLD LINE)
+   0.1 GLOBAL READING PROGRESS BAR (FIXED CINEMATIC SILVER LINE)
    -------------------------------------------------------------------------- */
 function updateScrollReadingProgress() {
   const progressBar = document.getElementById('scroll-reading-progress');
@@ -444,7 +443,7 @@ function initContactReveal() {
 function initNavbarScroll() {
   const navbar = document.querySelector('.navbar-custom');
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.mobile-nav-links a');
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a');
 
   const setActiveNav = (id) => {
     navLinks.forEach((link) => {
@@ -514,7 +513,9 @@ function initNavbarScroll() {
     if (mobileDrawer && mobileDrawer.classList.contains('open')) {
       mobileDrawer.classList.remove('open');
       if (mobileOverlay) mobileOverlay.classList.remove('active');
-      if (mobileToggle) mobileToggle.innerHTML = '<i class="fa-solid fa-bars-staggered"></i>';
+      if (mobileToggle) {
+        mobileToggle.setAttribute('aria-expanded', 'false');
+      }
       document.body.style.overflow = '';
     }
   };
@@ -599,7 +600,7 @@ function initNavbarScroll() {
                   }
 
                   // Set active class on clicked link immediately
-                  const navLinks = document.querySelectorAll('.mobile-nav-links a');
+                  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a');
                   navLinks.forEach((l) => {
                     if (l.getAttribute('href') === hash) {
                       l.classList.add('active');
@@ -622,6 +623,8 @@ function initMobileMenu() {
   const brandMonogram = document.querySelector('.brand-monogram');
   const mobileLinks = document.querySelectorAll('.mobile-nav-links a, .mobile-drawer .btn');
 
+  const mobileToggle = document.getElementById('mobile-toggle');
+
   if (!mobileDrawer || !mobileOverlay) return;
 
   const toggleMenu = (open) => {
@@ -630,12 +633,26 @@ function initMobileMenu() {
       mobileDrawer.classList.add('open');
       mobileOverlay.classList.add('active');
       document.body.style.overflow = 'hidden';
+      if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
+      if (drawerCloseBtn) setTimeout(() => drawerCloseBtn.focus(), 150);
     } else {
       mobileDrawer.classList.remove('open');
       mobileOverlay.classList.remove('active');
       document.body.style.overflow = '';
+      if (mobileToggle) {
+        mobileToggle.setAttribute('aria-expanded', 'false');
+        mobileToggle.focus();
+      }
     }
   };
+
+  if (mobileToggle) {
+    mobileToggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMenu(true);
+    });
+  }
 
   // On touch/mobile viewports, tapping the brand monogram opens the drawer cleanly
   if (brandMonogram) {
@@ -1004,48 +1021,6 @@ function initProjectLightbox() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('open')) {
       closeLightbox();
-    }
-  });
-}
-
-/* --------------------------------------------------------------------------
-   8. SCROLL TO TOP & CIRCULAR PROGRESS
-   -------------------------------------------------------------------------- */
-function initScrollToTop() {
-  const scrollTopBtn = document.getElementById('scroll-top-btn');
-  const progressCircle = document.querySelector('.scroll-progress-circle circle');
-
-  if (!scrollTopBtn) return;
-
-  const totalDash = 157; // 2 * PI * r (approx 2 * 3.14159 * 25)
-
-  window.addEventListener('scroll', () => {
-    const scrollPos = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-    // Show button past 300px
-    if (scrollPos > 300) {
-      scrollTopBtn.classList.add('visible');
-    } else {
-      scrollTopBtn.classList.remove('visible');
-    }
-
-    // Update circular progress meter
-    if (progressCircle && scrollHeight > 0) {
-      const progress = scrollPos / scrollHeight;
-      const dashOffset = totalDash - progress * totalDash;
-      progressCircle.style.strokeDashoffset = Math.max(0, dashOffset);
-    }
-  }, { passive: true });
-
-  scrollTopBtn.addEventListener('click', () => {
-    if (lenisInstance) {
-      lenisInstance.scrollTo(0, { duration: 1.2 });
-    } else {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
     }
   });
 }
