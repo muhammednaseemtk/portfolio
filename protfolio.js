@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSkillsMarquee();
   initProjectScrollEffects();
   initProjectLightbox();
+  initMoviesNestGallery();
   initTimelineProgress();
   initContactReveal();
   initCopyEmail();
@@ -398,22 +399,32 @@ function initTimelineProgress() {
 }
 
 /* --------------------------------------------------------------------------
-   0.5 PROJECTS SCROLL REVEALS & IMAGE MASKS
+   0.5 COMPACT PROJECTS SCROLL REVEAL & CARD ANIMATIONS
    -------------------------------------------------------------------------- */
 function initProjectScrollEffects() {
-  const projectCards = document.querySelectorAll('.project-card');
-  if (!projectCards.length) return;
+  const projectsSection = document.getElementById('projects');
+  const projectCards = document.querySelectorAll('.compact-project-card, .cinematic-project-card, .project-card');
+  const projectsHeader = document.querySelector('.projects-header');
 
-  const observer = new IntersectionObserver((entries, obs) => {
+  if (!projectsSection && (!projectCards || projectCards.length === 0)) return;
+
+  // Entrance Observer: Triggers choreographed entrance when section/cards enter view
+  const entranceObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
+        if (projectsHeader) projectsHeader.classList.add('revealed');
+        entry.target.classList.add('card-revealed');
         entry.target.classList.add('revealed');
         obs.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px 60px 0px' });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
-  projectCards.forEach((card) => observer.observe(card));
+  if (projectCards && projectCards.length > 0) {
+    projectCards.forEach((card) => entranceObserver.observe(card));
+  } else if (projectsSection) {
+    entranceObserver.observe(projectsSection);
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -1084,6 +1095,283 @@ function initProjectLightbox() {
       closeLightbox();
     }
   });
+}
+
+/* --------------------------------------------------------------------------
+   8. MOVIES NEST INTERACTIVE SCREENSHOT GALLERY (FANNED STACK & INSPECTOR)
+   -------------------------------------------------------------------------- */
+function initMoviesNestGallery() {
+  const modal = document.getElementById('movies-gallery-modal');
+  const backdrop = document.getElementById('movies-gallery-backdrop');
+  const closeBtn = document.getElementById('movies-gallery-close');
+  const viewToggleBtn = document.getElementById('gallery-view-toggle');
+
+  const fannedStage = document.getElementById('gallery-fanned-stack');
+  const inspectStage = document.getElementById('gallery-inspect-view');
+
+  const inspectImg = document.getElementById('inspect-main-img');
+  const inspectStepBadge = document.getElementById('inspect-step-badge');
+  const inspectFeaturePill = document.getElementById('inspect-feature-pill');
+  const inspectTitle = document.getElementById('inspect-screen-title');
+  const inspectDesc = document.getElementById('inspect-screen-desc');
+  const statusText = document.getElementById('gallery-status-text');
+
+  const prevBtn = document.getElementById('inspect-prev-btn');
+  const nextBtn = document.getElementById('inspect-next-btn');
+
+  const fannedCards = document.querySelectorAll('.fanned-card');
+  const thumbPills = document.querySelectorAll('.thumb-pill');
+
+  const phoneTrigger = document.getElementById('movies-phone-trigger');
+  const actionBtnTrigger = document.getElementById('open-movies-gallery-action');
+
+  if (!modal) return;
+
+  const screens = [
+    {
+      image: 'movies-nest-1.jpg',
+      title: 'Home Screen',
+      step: 'Screen 1 of 4',
+      badge: 'Trending & Featured Feeds',
+      desc: 'Movies Nest home screen featuring the "Welcome to Derry / IT" banner with instant playback controls, followed by curated carousels for Trending Movies and Upcoming releases with bottom navigation.'
+    },
+    {
+      image: 'movies-nest-2.jpg',
+      title: 'Movie Details',
+      step: 'Screen 2 of 4',
+      badge: '4K HDR & Trailer Player',
+      desc: 'Deep-dive cinema details for "Crime 101" displaying high-resolution header art, 6.9 rating, release date, 4K HDR badge, "Play Trailer" and "Add to Watchlist" actions, and complete story synopsis.'
+    },
+    {
+      image: 'movies-nest-3.jpg',
+      title: 'Search Screen',
+      step: 'Screen 3 of 4',
+      badge: 'Fast Movie Exploration',
+      desc: 'Dynamic movie search interface with quick-filter query bar and a multi-column responsive poster grid presenting "Recommended For You" cinema selections like Mercy, Crime 101, Scream 7, and Marty Supreme.'
+    },
+    {
+      image: 'movies-nest-4.png',
+      title: 'My Watchlist',
+      step: 'Screen 4 of 4',
+      badge: 'Saved Movies & Ratings',
+      desc: 'Clean personal watchlist management screen showcasing user-saved titles with cover posters, star ratings, release dates, and quick removal controls for tracking upcoming movie nights.'
+    }
+  ];
+
+  let currentScreenIndex = 0;
+  let currentMode = 'stack'; // 'stack' or 'inspect'
+
+  // Update inspection view content
+  const updateInspectView = (index) => {
+    if (index < 0) index = screens.length - 1;
+    if (index >= screens.length) index = 0;
+    currentScreenIndex = index;
+
+    const screen = screens[currentScreenIndex];
+
+    if (inspectImg) {
+      inspectImg.style.opacity = '0';
+      setTimeout(() => {
+        inspectImg.src = screen.image;
+        inspectImg.alt = `Movies Nest - ${screen.title}`;
+        inspectImg.style.opacity = '1';
+      }, 120);
+    }
+
+    if (inspectStepBadge) inspectStepBadge.textContent = screen.step;
+    if (inspectFeaturePill) inspectFeaturePill.textContent = screen.badge;
+    if (inspectTitle) inspectTitle.textContent = screen.title;
+    if (inspectDesc) inspectDesc.textContent = screen.desc;
+    if (statusText) statusText.textContent = `${screen.step} • ${screen.title}`;
+
+    thumbPills.forEach((pill) => {
+      const pIdx = parseInt(pill.getAttribute('data-index'), 10);
+      const isActive = pIdx === currentScreenIndex;
+      pill.classList.toggle('active', isActive);
+      pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  };
+
+  // Switch between Stack and Inspect modes
+  const setMode = (mode, screenIdx = null) => {
+    currentMode = mode;
+    if (mode === 'stack') {
+      if (fannedStage) fannedStage.removeAttribute('hidden');
+      if (inspectStage) inspectStage.setAttribute('hidden', '');
+      if (viewToggleBtn) {
+        viewToggleBtn.classList.remove('active');
+        viewToggleBtn.style.display = 'none';
+      }
+      if (statusText) statusText.textContent = 'Interactive App Showcase • 4 Screens';
+    } else {
+      if (screenIdx !== null) {
+        updateInspectView(screenIdx);
+      }
+      if (fannedStage) fannedStage.setAttribute('hidden', '');
+      if (inspectStage) inspectStage.removeAttribute('hidden');
+      if (viewToggleBtn) {
+        viewToggleBtn.classList.add('active');
+        viewToggleBtn.style.display = 'inline-flex';
+      }
+    }
+  };
+
+  // Open modal
+  const openGalleryModal = (startMode = 'stack', screenIdx = 0) => {
+    modal.removeAttribute('hidden');
+    // Force reflow for CSS transition
+    void modal.offsetWidth;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+
+    // Pause lenis if active
+    if (lenisInstance && typeof lenisInstance.stop === 'function') {
+      lenisInstance.stop();
+    }
+
+    setMode(startMode, screenIdx);
+  };
+
+  // Close modal
+  const closeGalleryModal = () => {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+
+    // Resume lenis if active
+    if (lenisInstance && typeof lenisInstance.start === 'function') {
+      lenisInstance.start();
+    }
+
+    setTimeout(() => {
+      modal.setAttribute('hidden', '');
+      setMode('stack');
+    }, 400);
+  };
+
+  // Wire trigger buttons
+  if (phoneTrigger) {
+    phoneTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openGalleryModal('stack');
+    });
+    phoneTrigger.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openGalleryModal('stack');
+      }
+    });
+  }
+
+  if (actionBtnTrigger) {
+    actionBtnTrigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openGalleryModal('stack');
+    });
+  }
+
+  // Clicking any fanned card opens inspector mode for that screen
+  fannedCards.forEach((card) => {
+    const handleCardSelect = () => {
+      const idx = parseInt(card.getAttribute('data-screen-index'), 10) || 0;
+      setMode('inspect', idx);
+    };
+
+    card.addEventListener('click', handleCardSelect);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleCardSelect();
+      }
+    });
+  });
+
+  // Mode toggle (Back to Stack)
+  if (viewToggleBtn) {
+    viewToggleBtn.addEventListener('click', () => {
+      setMode('stack');
+    });
+  }
+
+  // Close buttons
+  if (closeBtn) closeBtn.addEventListener('click', closeGalleryModal);
+  if (backdrop) backdrop.addEventListener('click', closeGalleryModal);
+
+  // Prev / Next navigation
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      updateInspectView(currentScreenIndex - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      updateInspectView(currentScreenIndex + 1);
+    });
+  }
+
+  // Thumbnail pills
+  thumbPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const idx = parseInt(pill.getAttribute('data-index'), 10);
+      if (!isNaN(idx)) updateInspectView(idx);
+    });
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (!modal.classList.contains('is-open')) return;
+
+    if (e.key === 'Escape') {
+      if (currentMode === 'inspect') {
+        setMode('stack');
+      } else {
+        closeGalleryModal();
+      }
+    } else if (currentMode === 'inspect') {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        updateInspectView(currentScreenIndex - 1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        updateInspectView(currentScreenIndex + 1);
+      }
+    }
+  });
+
+  // Touch Swipe Gesture for mobile inspection
+  const inspectDeviceWrap = document.getElementById('inspect-device-wrap');
+  if (inspectDeviceWrap) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    inspectDeviceWrap.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    inspectDeviceWrap.addEventListener('touchend', (e) => {
+      if (!touchStartX || !e.changedTouches || e.changedTouches.length === 0) return;
+      const touchEndX = e.changedTouches[0].clientX;
+      const touchEndY = e.changedTouches[0].clientY;
+      const diffX = touchEndX - touchStartX;
+      const diffY = touchEndY - touchStartY;
+
+      // Ensure horizontal swipe is dominant and exceeds threshold
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 40) {
+        if (diffX < 0) {
+          // Swiped left -> next screen
+          updateInspectView(currentScreenIndex + 1);
+        } else {
+          // Swiped right -> previous screen
+          updateInspectView(currentScreenIndex - 1);
+        }
+      }
+      touchStartX = 0;
+      touchStartY = 0;
+    }, { passive: true });
+  }
 }
 
 /* --------------------------------------------------------------------------
