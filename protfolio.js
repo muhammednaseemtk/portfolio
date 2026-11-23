@@ -18,8 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initStatCounters();
   initSkillBars();
-  initSkillsReveal();
-  initSkillsFilter();
+  initSkillsMarquee();
   initProjectScrollEffects();
   initProjectLightbox();
   initTimelineProgress();
@@ -438,76 +437,170 @@ function initContactReveal() {
 }
 
 /* --------------------------------------------------------------------------
-   1. NAVBAR SCROLL EFFECT & SCROLLSPY
+   1. NAVBAR SCROLL EFFECT & SCROLLSPY (SMOOTH SLIDING INDICATOR)
    -------------------------------------------------------------------------- */
+let isProgrammaticScroll = false;
+let programmaticScrollTimer = null;
+let activeNavId = 'home';
+let setGlobalActiveNav = null;
+
 function initNavbarScroll() {
   const navbar = document.querySelector('.navbar-custom');
+  const navLinksContainer = document.querySelector('.nav-links');
+  const indicator = document.querySelector('.nav-indicator');
   const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a');
+  const allNavLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a');
 
-  const setActiveNav = (id) => {
-    navLinks.forEach((link) => {
-      if (link.getAttribute('href') === `#${id}`) {
+  if (navLinksContainer && indicator) {
+    navLinksContainer.classList.add('has-indicator');
+  }
+
+  const updateIndicator = (targetLink, immediate = false) => {
+    if (!indicator || !navLinksContainer || !targetLink) return;
+
+    const navRect = navLinksContainer.getBoundingClientRect();
+    const linkRect = targetLink.getBoundingClientRect();
+
+    if (navRect.width === 0 || linkRect.width === 0) return;
+
+    const x = linkRect.left - navRect.left;
+    const y = linkRect.top - navRect.top;
+    const width = linkRect.width;
+    const height = linkRect.height;
+
+    if (immediate) {
+      indicator.style.transition = 'none';
+    }
+
+    indicator.style.top = `${y}px`;
+    indicator.style.height = `${height}px`;
+    indicator.style.width = `${width}px`;
+    indicator.style.transform = `translateX(${x}px)`;
+    indicator.style.opacity = '1';
+
+    if (immediate) {
+      void indicator.offsetHeight; // Force reflow so transition: none takes effect
+      indicator.style.transition = '';
+    }
+  };
+
+  const setActiveNav = (id, immediate = false) => {
+    if (!id) return;
+    if (id === activeNavId && !immediate) return;
+    activeNavId = id;
+
+    let activeDesktopLink = null;
+    allNavLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      if (href === `#${id}`) {
         link.classList.add('active');
+        if (link.closest('.navbar-custom')) {
+          activeDesktopLink = link;
+        }
       } else {
         link.classList.remove('active');
       }
     });
+
+    if (activeDesktopLink) {
+      updateIndicator(activeDesktopLink, immediate);
+    }
   };
+
+  // Expose to anchor click handler
+  setGlobalActiveNav = setActiveNav;
 
   const onScroll = () => {
     const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-      // Add blurred/scrolled styling when scrolled past threshold
-      if (navbar) {
-        if (scrollY > 30) {
-          navbar.classList.add('scrolled');
-        } else {
-          navbar.classList.remove('scrolled');
-        }
+    // Add blurred/scrolled styling when scrolled past threshold
+    if (navbar) {
+      if (scrollY > 30) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
       }
-
-      // Edge Case 1: At the top of the page
-      if (scrollY < 100) {
-        setActiveNav('home');
-        return;
-      }
-
-        // Edge Case 2: Near the bottom of the page
-        const windowHeight = window.innerHeight;
-        const documentHeight = document.documentElement.scrollHeight;
-        if (scrollY + windowHeight >= documentHeight - 60) {
-          setActiveNav('contact');
-          return;
-        }
-
-        // General Section Detection using getBoundingClientRect
-        const navbarHeight = navbar ? navbar.offsetHeight : 72;
-        const triggerPoint = navbarHeight + 50;
-        let currentId = 'home';
-
-        sections.forEach((section) => {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= triggerPoint && (rect.top + rect.height) > triggerPoint) {
-            currentId = section.getAttribute('id');
-          }
-        });
-
-        setActiveNav(currentId);
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll(); // Run on initial load
     }
 
-  /* --------------------------------------------------------------------------
-     2. CLEAN ANCHOR NAVIGATION (REMOVES #HASHTAG FROM URL ON SCROLL/CLICK)
-     -------------------------------------------------------------------------- */
-  function initCleanAnchorLinks() {
-    const navbar = document.querySelector('.navbar-custom');
-    const mobileDrawer = document.getElementById('mobile-drawer');
-    const mobileOverlay = document.getElementById('mobile-drawer-overlay');
-    const mobileToggle = document.getElementById('mobile-toggle');
+    // Skip section detection during programmatic scroll to prevent indicator jumping
+    if (isProgrammaticScroll) return;
+
+    // Edge Case 1: At the top of the page
+    if (scrollY < 100) {
+      setActiveNav('home');
+      return;
+    }
+
+    // Edge Case 2: Near the bottom of the page
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    if (scrollY + windowHeight >= documentHeight - 60) {
+      setActiveNav('contact');
+      return;
+    }
+
+    // General Section Detection using getBoundingClientRect
+    const triggerPoint = Math.max(120, Math.min(220, Math.round(window.innerHeight * 0.3)));
+    let currentId = 'home';
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= triggerPoint && (rect.top + rect.height) > triggerPoint) {
+        currentId = section.getAttribute('id');
+      }
+    });
+
+    setActiveNav(currentId);
+  };
+
+  // rAF throttling for 60/120fps scroll performance
+  let ticking = false;
+  const throttledScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        onScroll();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  window.addEventListener('scroll', throttledScroll, { passive: true });
+  if (lenisInstance) {
+    lenisInstance.on('scroll', throttledScroll);
+  }
+
+  // Window resize: re-align indicator without animation
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const activeLink = document.querySelector('.navbar-custom .nav-link.active');
+      if (activeLink) {
+        updateIndicator(activeLink, true);
+      }
+    }, 100);
+  }, { passive: true });
+
+  // Initial load alignment (immediate without visual slide from 0)
+  requestAnimationFrame(() => {
+    onScroll();
+    const activeLink = document.querySelector('.navbar-custom .nav-link.active') ||
+                      document.querySelector('.navbar-custom .nav-link[href="#home"]');
+    if (activeLink) {
+      updateIndicator(activeLink, true);
+    }
+  });
+}
+
+/* --------------------------------------------------------------------------
+   2. CLEAN ANCHOR NAVIGATION (REMOVES #HASHTAG FROM URL ON SCROLL/CLICK)
+   -------------------------------------------------------------------------- */
+function initCleanAnchorLinks() {
+  const navbar = document.querySelector('.navbar-custom');
+  const mobileDrawer = document.getElementById('mobile-drawer');
+  const mobileOverlay = document.getElementById('mobile-drawer-overlay');
+  const mobileToggle = document.getElementById('mobile-toggle');
 
   const closeMobileMenu = () => {
     if (mobileDrawer && mobileDrawer.classList.contains('open')) {
@@ -520,97 +613,109 @@ function initNavbarScroll() {
     }
   };
 
-    const getTrueElementTop = (el) => {
-      let top = 0;
-      let curr = el;
-      while (curr) {
-        top += curr.offsetTop;
-        curr = curr.offsetParent;
-      }
-      return top;
-    };
-
-    const getSectionTargetPos = (sectionEl) => {
-      const sectionHeader = sectionEl.querySelector('.section-header') || sectionEl;
-      const headerTop = getTrueElementTop(sectionHeader);
-      // Sticky navbar is 72px when scrolled. Provide an optimal, balanced 28px clearance below it.
-      const navbarScrolledHeight = navbar ? 72 : 0;
-      const clearance = navbar ? 28 : 40;
-      return Math.max(0, headerTop - navbarScrolledHeight - clearance);
-    };
-
-          // If page was opened with a hash in URL (e.g. /#about), scroll to section and clear the hash
-          if (window.location.hash) {
-            const initialTarget = document.querySelector(window.location.hash);
-            if (initialTarget) {
-              setTimeout(() => {
-                const targetPos = window.location.hash === '#home'
-                  ? 0
-                  : getSectionTargetPos(initialTarget);
-
-                window.scrollTo({
-                  top: targetPos,
-                  behavior: 'smooth'
-                });
-
-            if (window.history && window.history.replaceState) {
-              window.history.replaceState(null, '', window.location.pathname + window.location.search);
-            }
-          }, 100);
-      }
+  const getTrueElementTop = (el) => {
+    let top = 0;
+    let curr = el;
+    while (curr) {
+      top += curr.offsetTop;
+      curr = curr.offsetParent;
     }
+    return top;
+  };
 
-        // Intercept all internal anchor clicks to navigate smoothly without changing URL hash
-        const internalLinks = document.querySelectorAll('a[href^="#"]');
-        internalLinks.forEach((link) => {
-          link.addEventListener('click', function (e) {
-            const hash = this.getAttribute('href');
-            if (!hash || hash === '#') return;
+  const getSectionTargetPos = (sectionEl) => {
+    if (!sectionEl) return 0;
+    if (sectionEl.getAttribute('id') === 'home') return 0;
+    return Math.max(0, Math.round(getTrueElementTop(sectionEl)));
+  };
 
-              const target = document.querySelector(hash);
-              if (target) {
-                e.preventDefault();
+  // If page was opened with a hash in URL (e.g. /#about), scroll to section and clear the hash
+  if (window.location.hash) {
+    const initialTarget = document.querySelector(window.location.hash);
+    if (initialTarget) {
+      setTimeout(() => {
+        const targetPos = window.location.hash === '#home'
+          ? 0
+          : getSectionTargetPos(initialTarget);
 
-                // Close mobile drawer if open
-                closeMobileMenu();
+        const targetId = window.location.hash.substring(1);
+        if (setGlobalActiveNav) {
+          setGlobalActiveNav(targetId, true);
+        }
 
-                const targetPos = hash === '#home'
-                  ? 0
-                  : getSectionTargetPos(target);
-
-                if (lenisInstance) {
-                  lenisInstance.scrollTo(targetPos, { duration: 1.15 });
-                } else {
-                  window.scrollTo({
-                    top: targetPos,
-                    behavior: 'smooth'
-                  });
-                }
-
-                if (target) {
-                  target.classList.add('revealed');
-                  target.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
-                  if (hash === '#skills') target.classList.add('skills-revealed');
-                  if (hash === '#contact') target.classList.add('contact-revealed');
-                }
-
-                // Strip hashtag from address bar
-                  if (window.history && window.history.replaceState) {
-                    window.history.replaceState(null, '', window.location.pathname + window.location.search);
-                  }
-
-                  // Set active class on clicked link immediately
-                  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-links a');
-                  navLinks.forEach((l) => {
-                    if (l.getAttribute('href') === hash) {
-                      l.classList.add('active');
-                    } else {
-                      l.classList.remove('active');
-                    }
+        window.scrollTo({
+          top: targetPos,
+          behavior: 'smooth'
         });
+
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+      }, 100);
+    }
+  }
+
+  // Intercept all internal anchor clicks to navigate smoothly without changing URL hash
+  const internalLinks = document.querySelectorAll('a[href^="#"]');
+  internalLinks.forEach((link) => {
+    link.addEventListener('click', function (e) {
+      const hash = this.getAttribute('href');
+      if (!hash || hash === '#') return;
+
+      const target = document.querySelector(hash);
+      if (target) {
+        e.preventDefault();
+
+        // Close mobile drawer if open
+        closeMobileMenu();
+
+        const targetId = hash.substring(1);
+
+        // Lock programmatic scroll so intermediate sections don't flicker the active pill
+        isProgrammaticScroll = true;
+        clearTimeout(programmaticScrollTimer);
+
+        // Set active class and smoothly slide indicator immediately to clicked item
+        if (setGlobalActiveNav) {
+          setGlobalActiveNav(targetId);
+        }
+
+        const targetPos = hash === '#home'
+          ? 0
+          : getSectionTargetPos(target);
+
+        const onScrollFinished = () => {
+          isProgrammaticScroll = false;
+        };
+
+        if (lenisInstance) {
+          lenisInstance.scrollTo(targetPos, {
+            duration: 1.15,
+            onComplete: onScrollFinished
+          });
+          programmaticScrollTimer = setTimeout(onScrollFinished, 1250);
+        } else {
+          window.scrollTo({
+            top: targetPos,
+            behavior: 'smooth'
+          });
+          programmaticScrollTimer = setTimeout(onScrollFinished, 850);
+        }
+
+        if (target) {
+          target.classList.add('revealed');
+          target.querySelectorAll('.reveal').forEach((el) => el.classList.add('revealed'));
+          if (hash === '#skills') target.classList.add('skills-revealed');
+          if (hash === '#contact') target.classList.add('contact-revealed');
+        }
+
+        // Strip hashtag from address bar
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
       }
     });
-});
+  });
 }
 
 /* --------------------------------------------------------------------------
@@ -822,156 +927,112 @@ function initSkillBars() {
 }
 
 /* --------------------------------------------------------------------------
-   5.1 SKILLS SECTION SCROLL REVEAL & PROGRESSIVE ANIMATION
+   5.1 SKILLS HORIZONTAL MOVING MARQUEE (SMOOTH INFINITE LOOP & SCROLL PHYSICS)
    -------------------------------------------------------------------------- */
-function initSkillsReveal() {
-  const skillsSection = document.getElementById('skills');
-  if (!skillsSection) return;
+function initSkillsMarquee() {
+  const container = document.getElementById('skillsMarquee');
+  if (!container) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) {
-    skillsSection.classList.add('skills-revealed');
-    return;
-  }
+  const track = container.querySelector('.skills-marquee-track');
+  if (!track) return;
 
-  // Check if skills is already within or near viewport on load
-  const rect = skillsSection.getBoundingClientRect();
-  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
 
-  if (rect.top < windowHeight - 40) {
-    skillsSection.classList.add('skills-revealed');
-    return;
-  }
+  let position = 0;
+  const baseSpeed = 0.65; // pixels per frame at 60fps
+  let currentSpeed = baseSpeed;
+  let scrollVelocity = 0;
+  let isHovered = false;
+  let isDragging = false;
+  let startX = 0;
+  let dragStartPos = 0;
+  let rafId = null;
 
-  // Set initial hidden state for animated entrance
-  skillsSection.classList.add('skills-init');
+  let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-  const onReveal = () => {
-    skillsSection.classList.add('skills-revealed');
-    // Remove skills-init after entrance completes so cards transition cleanly when filtered
-    setTimeout(() => {
-      skillsSection.classList.remove('skills-init');
-    }, 1100);
-  };
-
-  const observer = new IntersectionObserver(
-    (entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          onReveal();
-          obs.unobserve(skillsSection);
-        }
-      });
-    },
-    {
-      root: null,
-      threshold: 0.08,
-      rootMargin: '0px 0px 80px 0px'
-    }
-  );
-
-  observer.observe(skillsSection);
-
-  // Safety fallback: ensure cards are visible if user scrolls quickly past the threshold
+  // Track window scroll momentum to dynamically adjust speed and direction
   window.addEventListener(
     'scroll',
-    function onScrollCheck() {
-      const r = skillsSection.getBoundingClientRect();
-      if (r.top < window.innerHeight) {
-        onReveal();
-        window.removeEventListener('scroll', onScrollCheck);
-      }
+    () => {
+      const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+      const delta = currentScrollY - lastScrollY;
+      lastScrollY = currentScrollY;
+
+      // Scrolling down accelerates right-to-left flow, scrolling up gently eases or reverses
+      scrollVelocity += delta * 0.045;
+      // Cap maximum momentum
+      scrollVelocity = Math.max(-6, Math.min(6, scrollVelocity));
     },
     { passive: true }
   );
-}
 
-/* --------------------------------------------------------------------------
-   6. SKILLS CATEGORY FILTER
-   -------------------------------------------------------------------------- */
-function initSkillsFilter() {
-  const filterBtns = document.querySelectorAll('.skills-filter-nav .filter-btn');
-  const skillCards = document.querySelectorAll('.skill-category-card');
-  const categoriesGrid = document.querySelector('.skills-categories-grid');
-
-  if (!filterBtns.length || !skillCards.length) return;
-
-  let filterTimeouts = [];
-
-  filterBtns.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      const filter = btn.getAttribute('data-filter');
-
-      // Clear any pending timeouts from rapid clicks
-      filterTimeouts.forEach((t) => clearTimeout(t));
-      filterTimeouts = [];
-
-      // Ensure skills-init is removed so entrance stagger delays don't affect filtering
-      const skillsSection = document.getElementById('skills');
-      if (skillsSection) {
-        skillsSection.classList.remove('skills-init');
-        skillsSection.classList.add('skills-revealed');
-      }
-
-      // Update grid layout class for single filtered card vs full 2-col grid
-      if (categoriesGrid) {
-        if (filter === 'all') {
-          categoriesGrid.classList.remove('is-filtered');
-        } else {
-          categoriesGrid.classList.add('is-filtered');
-        }
-      }
-
-      // Record position before filtering to prevent disorienting jumps
-      const rectBefore = skillsSection ? skillsSection.getBoundingClientRect() : null;
-
-      skillCards.forEach((card) => {
-        // Strip any residual transition delays
-        card.style.transitionDelay = '0s';
-        card.querySelectorAll('.skill-box-item').forEach((item) => {
-          item.style.transitionDelay = '0s';
-        });
-
-        const category = card.getAttribute('data-category');
-        const matches = filter === 'all' || category === filter;
-
-        if (matches) {
-          // Restore CSS flexbox display (never force display: block!)
-          card.style.display = '';
-          card.style.pointerEvents = 'auto';
-          // Force reflow
-          void card.offsetWidth;
-          card.style.opacity = '1';
-          card.style.transform = 'translateY(0) scale(1)';
-        } else {
-          card.style.opacity = '0';
-          card.style.transform = 'translateY(8px) scale(0.98)';
-          card.style.pointerEvents = 'none';
-          const t = setTimeout(() => {
-            if (card.style.opacity === '0') {
-              card.style.display = 'none';
-            }
-          }, 240);
-          filterTimeouts.push(t);
-        }
-      });
-
-      // Smoothly re-align if user was deep within skills and height collapses significantly
-      if (skillsSection && rectBefore) {
-        const navbar = document.querySelector('.navbar-custom');
-        const navbarHeight = navbar ? navbar.offsetHeight : 75;
-        if (rectBefore.top < -150) {
-          window.scrollTo({
-            top: skillsSection.offsetTop - navbarHeight - 15,
-            behavior: 'smooth'
-          });
-        }
-      }
-    });
+  // Hover detection: gently decelerate
+  container.addEventListener('mouseenter', () => {
+    isHovered = true;
   });
+
+  container.addEventListener('mouseleave', () => {
+    isHovered = false;
+  });
+
+  // Touch & Pointer drag support
+  const onPointerDown = (e) => {
+    isDragging = true;
+    startX = e.pageX || (e.touches && e.touches[0].pageX) || 0;
+    dragStartPos = position;
+  };
+
+  const onPointerMove = (e) => {
+    if (!isDragging) return;
+    const currentX = e.pageX || (e.touches && e.touches[0].pageX) || 0;
+    const diff = currentX - startX;
+    position = dragStartPos + diff;
+  };
+
+  const onPointerUp = () => {
+    isDragging = false;
+  };
+
+  container.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  container.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+
+  // Main animation loop
+  function loop() {
+    if (!isDragging) {
+      // Apply friction decay to scroll-induced velocity
+      scrollVelocity *= 0.92;
+      if (Math.abs(scrollVelocity) < 0.005) scrollVelocity = 0;
+
+      // Target speed calculation (slow to 15% on hover)
+      const targetSpeed = isHovered ? baseSpeed * 0.15 : baseSpeed;
+      currentSpeed += (targetSpeed - currentSpeed) * 0.1;
+
+      // Move leftwards
+      position -= (currentSpeed + scrollVelocity);
+
+      // Total track scrollWidth contains 2 identical groups
+      const halfWidth = track.scrollWidth / 2;
+      if (halfWidth > 0) {
+        if (position <= -halfWidth) {
+          position += halfWidth;
+        } else if (position > 0) {
+          position -= halfWidth;
+        }
+      }
+
+      track.style.transform = `translate3d(${position}px, 0, 0)`;
+    }
+
+    rafId = requestAnimationFrame(loop);
+  }
+
+  rafId = requestAnimationFrame(loop);
 }
 
 /* --------------------------------------------------------------------------
