@@ -547,7 +547,7 @@ h6 {
   width: auto;
   height: clamp(580px, 92vh, 960px);
   max-height: 94svh;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -594,7 +594,7 @@ h6 {
   overflow: hidden;
   pointer-events: none;
   user-select: none;
-  z-index: 3; /* Overlapping the portrait */
+  z-index: 2; /* Passing behind the portrait */
   white-space: nowrap;
 }
 
@@ -640,6 +640,35 @@ h6 {
   inset: 0;
   z-index: 4;
   pointer-events: none;
+}
+
+/* Top Left: Developer Title Tag */
+.hero-meta-left-title {
+  position: absolute;
+  top: clamp(2.2rem, 5vh, 3.8rem);
+  left: clamp(1.5rem, 4vw, 4.5rem);
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.hero-title-tag {
+  font-family: 'Space Grotesk', 'Sora', var(--font-display), sans-serif;
+  font-size: clamp(0.78rem, 1.05vw, 0.92rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  line-height: 1.2;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.8s ease 0.25s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.25s;
+}
+
+.hero-revealed .hero-title-tag {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Right Side: Directional Arrow & Name Panel */
@@ -1727,63 +1756,10 @@ textarea.form-control {
 }
 
 /* --------------------------------------------------------------------------
-   14. FOOTER ALIGNMENT
+   14. CONTACT SECTION BOTTOM SPACING (NATURAL PAGE TERMINATION)
    -------------------------------------------------------------------------- */
-.footer-custom {
-  background: var(--bg-main);
-  border-top: 1px solid var(--border-subtle);
-  padding: 4.5rem 0 2.25rem 0;
-  position: relative;
-  z-index: 1;
-}
-
-.footer-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.footer-brand p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin-top: 0.5rem;
-  max-width: 360px;
-}
-
-.footer-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-size: 0.92rem;
-  font-weight: 500;
-  transition: color var(--transition-fast);
-}
-
-.footer-links a:hover {
-  color: var(--accent-gold);
-}
-
-.footer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  padding-top: 2rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+.contact-section {
+  padding-bottom: 5.5rem;
 }
 
 /* --------------------------------------------------------------------------
@@ -2051,6 +2027,11 @@ textarea.form-control {
     font-size: clamp(3.9rem, 10.9vw, 7.8rem);
     gap: 2rem;
     padding-right: 2rem;
+  }
+
+  .hero-meta-left-title {
+    top: 2rem;
+    left: 2rem;
   }
 
   .hero-meta-right-role {
@@ -2495,6 +2476,16 @@ html.lenis, html.lenis body {
     bottom: 11vh;
   }
 
+  .hero-meta-left-title {
+    top: 1.5rem;
+    left: 1.15rem;
+  }
+
+  .hero-title-tag {
+    font-size: 0.74rem;
+    letter-spacing: 0.12em;
+  }
+
   .hero-meta-right-role {
     right: 1.15rem;
     left: auto;
@@ -2545,21 +2536,8 @@ html.lenis, html.lenis body {
     padding: 1.75rem;
   }
 
-  .footer-top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.85rem;
+  .contact-section {
+    padding-bottom: 4.5rem;
   }
 
   .scroll-top-btn {
@@ -2595,8 +2573,14 @@ html.lenis, html.lenis body {
     padding-right: 1.1rem;
   }
 
-  .hero-corner-tl {
-    max-width: 170px;
+  .hero-meta-left-title {
+    top: 1.35rem;
+    left: 1.15rem;
+  }
+
+  .hero-title-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
   }
 
   .skills-items-grid {
